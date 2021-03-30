@@ -1,6 +1,6 @@
 ---
 applications:
 - name: watchyoursteps
-  memory: 512M
+  memory: 256M
   buildpacks: [sdk-for-nodejs]
   command: node app.js
