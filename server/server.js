@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const cfenv = require('cfenv') // Cloud Foundry environment (port, ip etc.)
 
-const servePath = path.join(__dirname, 'build');
+const servePath = path.join(__dirname, '../build');
 
 /* Makes it so that all files get served from the build/ directory */
 /* which gets created after running npm run build. */
