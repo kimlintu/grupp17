@@ -17,7 +17,7 @@ function App() {
             The "/" path always matches so it needs to be the last <Route>. */}
       <Switch>
         <Route path="/login/test">
-          @login/test <br />
+          <h2>@login/test</h2>
           <Link to="/">
             Home <br />
           </Link>

@@ -5,6 +5,7 @@ const LoginView = () => {
   i.e. "/login". It can be used to perform relative routing (see below). */}
 
   return <div>
+    <h2>@/login</h2>
     <Link to={`${match.path}/test`}>
       link to "/login/test"
     </Link>
