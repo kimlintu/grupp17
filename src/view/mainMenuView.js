@@ -69,47 +69,41 @@ function PermanentDrawerLeft() {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          {['Add steps'].map((text, index) => (
-            <ListItem button key={text} onClick={() => {if(index > -1){console.log('hej')}}}>
-              <ListItemIcon><AddIcon /></ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <List>
-          {['Add friend'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon><AddIcon /></ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <List>
-          {['Sync stepcounter'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon><SyncIcon /></ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <List>
-          {['Show stats'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon><EqualizerIcon /></ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button key={"Add steps"}>
+            <ListItemIcon>
+              <AddIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Add steps"}/>
+          </ListItem>
+          <ListItem button key={"Add friend"}>
+            <ListItemIcon>
+              <AddIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Add friend"}/>
+          </ListItem>
+          <ListItem button key={"Sync stepcounter"}>
+            <ListItemIcon>
+              <SyncIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Sync stepcounter"}/>
+          </ListItem>
+          <ListItem button key={"Show stats"}>
+            <ListItemIcon>
+              <EqualizerIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Show stats"} />
+          </ListItem>
         </List>
         <Divider />
         <List>
-          {['Logout'].map((text, index) => (
-            <Link to="/login">
-            <ListItem button key={text}>
-              <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-              <ListItemText primary={text} />
+          <Link to="/login">
+            <ListItem button key={"Logout"}>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Logout"} />
             </ListItem>
-            </Link>
-          ))}
+          </Link>
         </List>
       </Drawer>
       <main className={classes.content}>
