@@ -12,11 +12,11 @@ const LoginView = () => {
     </div>
     <h2>@/login</h2>
 
-    <Link to={`${match.path}/test`}>
+    { <Link to="/">
       <button>
         Login
       </button>
-    </Link>
+    </Link>} 
     <Link to="/register">
       <button>
         Register
