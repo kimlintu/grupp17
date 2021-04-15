@@ -21,7 +21,7 @@ function App() {
           <Link to="/">
             Home <br />
           </Link>
-          <Link to="login">
+          <Link to="/login">
             Login <br />
           </Link>
         </Route>
