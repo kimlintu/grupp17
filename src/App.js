@@ -7,6 +7,8 @@ import {
 
 import { MainMenuView } from './view/mainMenuView'
 import { LoginView } from './view/loginView'
+import { RegisterView } from './view/registerView'
+
 
 function App() {
   return (
@@ -28,9 +30,13 @@ function App() {
         <Route path="/login">
           <LoginView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
         </Route>
+        <Route path="/register">
+          <RegisterView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+        </Route>
         <Route path="/">
           <MainMenuView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
         </Route>
+       
       </Switch>
     </Router>
   );
