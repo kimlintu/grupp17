@@ -69,19 +69,43 @@ function PermanentDrawerLeft() {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          {['Add steps', 'Add friend', 'Sync stepcounter'].map((text, index) => (
+          {['Add steps'].map((text, index) => (
+            <ListItem button key={text} onClick={() => {if(index > -1){console.log('hej')}}}>
+              <ListItemIcon><AddIcon /></ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <List>
+          {['Add friend'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{((index === 1) || index === 0) ? <AddIcon /> : <SyncIcon />}</ListItemIcon>
+              <ListItemIcon><AddIcon /></ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <List>
+          {['Sync stepcounter'].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon><SyncIcon /></ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <List>
+          {['Show stats'].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon><EqualizerIcon /></ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
         <Divider />
         <List>
-          {['Show stats', 'Logout'].map((text, index) => (
+          {['Logout'].map((text, index) => (
             <Link to="/login">
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <EqualizerIcon /> : <ExitToAppIcon />}</ListItemIcon>
+              <ListItemIcon><ExitToAppIcon /></ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
             </Link>
