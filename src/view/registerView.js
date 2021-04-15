@@ -24,6 +24,11 @@ const RegisterView = () => {
         </div>
 
         <button onClick={()=>alert(username + " is Invalid username")}>Register</button>
+        <Link to="/login">
+      <button>
+        Back
+      </button>
+    </Link>
     </div>
 
 };
