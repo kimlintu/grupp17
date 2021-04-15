@@ -69,7 +69,7 @@ function PermanentDrawerLeft() {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          {['Add steps', 'Add friend', 'Sync stepcounter', 'Show stats'].map((text, index) => (
+          {['Add steps', 'Add friend', 'Sync stepcounter'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{((index === 1) || index === 0) ? <AddIcon /> : <SyncIcon />}</ListItemIcon>
               <ListItemText primary={text} />
@@ -78,10 +78,10 @@ function PermanentDrawerLeft() {
         </List>
         <Divider />
         <List>
-          {['Logout'].map((text, index) => (
+          {['Show stats', 'Logout'].map((text, index) => (
             <Link to="/login">
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <ExitToAppIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>{index % 2 === 0 ? <EqualizerIcon /> : <ExitToAppIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
             </Link>
