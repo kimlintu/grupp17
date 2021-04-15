@@ -6,9 +6,13 @@ const LoginView = () => {
 
   return <div>
     <h2>@/login</h2>
+
     <Link to={`${match.path}/test`}>
-      link to "/login/test"
+      <button>
+        Login mFS
+      </button>
     </Link>
+
   </div>
 };
 
