@@ -1,9 +1,11 @@
 const fetch = require('node-fetch')
 
+const { iotStatus } = require('./iotApiStatusCodes')
+
 const iotServiceInfo = {
-  "url": "API_URL",
-  "api-key": "API_KEY",
-  "auth": "API_AUTH_KEY"
+  "url": "https://udbne1.internetofthings.ibmcloud.com/api/v0002/",
+  "api-key": "a-udbne1-pjkrdrdlsv",
+  "auth": "YS11ZGJuZTEtcGprcmRyZGxzdjpReXliMFEzaGtvQzBjd1NnbjIK"
 };
 
 /**
@@ -13,6 +15,8 @@ const iotServiceInfo = {
  * @param {string} method   HTTP method that should be used, e.g. GET, POST, or PUT.
  * @param {object} headers  (Optional) Any additional headers that should be specified.  
  * @param {object} body     (Optional) The body of the request.
+ * 
+ * @returns {object} the response of the request.
  */
 async function iotApiCall({ resource, method, headers, body }) {
   if (!resource || !method)
@@ -35,7 +39,31 @@ async function iotApiCall({ resource, method, headers, body }) {
   }
 
   const response = await fetch(fullUrl, options);
-  const data = await response.json();
 
-  return data;
+  return response;
 }
+
+/**
+ * Adds the specified device to the IBM Watson IoT hub.
+ * 
+ * @param {object} device The device that should be added. 
+ * 
+ * @returns {object} If successfull, returns an object containing the authentication token of the added device. 
+ *                   A failed api call will return an error object explaining the error.  
+ */
+async function iotApiAddDevice({ device }) {
+  const response = await iotApiCall({ resource: 'device/types/test/devices', method: 'POST', body: device });
+
+  const result = { "status": iotStatus.deviceConfStatus[response.status] };
+
+  // If device has been added we also want to return data.
+  if (response.status == 201) {
+    const data = await response.json();
+    result["data"] = data;
+  }
+
+  console.log("result: ", result)
+  return result; 
+}
+
+exports.iotApiAddDevice = iotApiAddDevice;
