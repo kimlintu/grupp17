@@ -45,7 +45,3 @@ async function addDevice({ user, deviceName, deviceInformation, deviceAuthToken 
     }
   }
 }
-
-function test() {
-  addDevice
-}
