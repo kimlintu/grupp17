@@ -5,13 +5,33 @@ const cfenv = require('cfenv') // Cloud Foundry environment (port, ip etc.)
 
 const servePath = path.join(__dirname, '../build');
 
+const { addDevice } = require('./iot/iot')
+
 /* Makes it so that all files get served from the build/ directory */
 /* which gets created after running npm run build. */
 app.use(express.static(servePath));
 
+app.use(express.json());
+
 app.get('/', (request, response) => {
     response.sendFile(path.join(servePath, 'index.html'));
 });
+
+app.post('/step-counters/add', async (request, response) => {
+    try {
+        const addedDevice = await addDevice({ user: 'null', deviceName: request.body.deviceName });
+
+        // TODO: check if errors (device already added, connection errors, etc.)
+
+        const deviceInfo = {
+            deviceToken: addedDevice.authToken
+        };
+
+        response.json(deviceInfo);
+    } catch (error) {
+
+    }
+})
 
 /* Environment for Cloud Foundry app (watchyoursteps). Contains things such as 
    application port, connected services etc., for the website. */
