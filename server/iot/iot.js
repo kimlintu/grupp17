@@ -33,15 +33,15 @@ async function addDevice({ user, deviceName, deviceInformation, deviceAuthToken 
       device["deviceInfo"] = deviceInformation;
 
     // First we try to add the device to the IoT hub.
-    const addedDevice = iotApiAddDevice({ device });
+    const addedDevice = await iotApiAddDevice({ device });
 
     if(addedDevice.data) {
       // TODO: Link the device to the user in the database.
 
-    } else {
-      // If addedDevice does not contain data, the API call to the IoT hub will have failed.
-      // Therefore we just the error object.
-      return addedDevice.status;
+      return addedDevice.data;
     }
+
   }
 }
+
+exports.addDevice = addDevice;

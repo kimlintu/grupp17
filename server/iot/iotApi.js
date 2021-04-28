@@ -56,13 +56,14 @@ async function iotApiAddDevice({ device }) {
 
   const result = { "status": iotStatus.deviceConfStatus[response.status] };
 
-  // If device has been added we also want to return data.
+  // If device has been added we want to return the device information.
   if (response.status == 201) {
     const data = await response.json();
     result["data"] = data;
+  } else {
+    throw `Device could not be added, reason: ${response.status} ${response.statusText}`;
   }
 
-  console.log("result: ", result)
   return result; 
 }
 
