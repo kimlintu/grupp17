@@ -1,13 +1,14 @@
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
 
 import { MainMenuView } from './view/mainMenuView'
 import { LoginView } from './view/loginView'
 import { RegisterView } from './view/registerView'
+import { Devices } from './presenter/devices/devices'
+import { PermanentDrawerLeft } from './view/drawerView'
 
 
 function App() {
@@ -21,23 +22,19 @@ function App() {
         <Route path="/login">
           <LoginView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
         </Route>
-       {/*  <Route path="/login/test">
-          <h2>@login/test</h2>
-          <Link to="/">
-            Home <br />
-          </Link>
-          <Link to="/login">
-            Login <br />
-          </Link>
-        </Route>
- */}
         <Route path="/register">
           <RegisterView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
         </Route>
-        <Route path="/">
-          <MainMenuView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+        <Route path="/devices">
+          <PermanentDrawerLeft>
+            <Devices />
+          </PermanentDrawerLeft>
         </Route>
-
+        <Route path="/">
+          <PermanentDrawerLeft>
+            <MainMenuView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+          </PermanentDrawerLeft>
+        </Route>
       </Switch>
     </Router>
   );
