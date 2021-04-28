@@ -1,7 +1,7 @@
-import { Button, Grid, Paper, TextField } from '@material-ui/core'
+import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core'
 import { useState } from 'react';
 
-const DevicesView = ({ addDevice }) => {
+const DevicesView = ({ addDevice, status }) => {
   const [deviceName, setDeviceName] = useState("device_name");
 
   return <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }}>
@@ -19,9 +19,20 @@ const DevicesView = ({ addDevice }) => {
             <Grid item xs={12}>
               <Grid container justify="center">
                 <Button variant="contained" color="primary" disableElevation style={{ "padding": "40px", "fontWeight": "bold" }}
-                        onClick={() => addDevice(deviceName)}>
+                  disabled={(status.status === 'loading')}
+                  onClick={() => addDevice(deviceName)}>
                   Add device
-                </Button>
+                  </Button>
+                <Grid item xs={12} style={{ textAlign: "center" }}>
+                  <Typography color={status.color} style={{ fontWeight: "bold" }}>
+                    {status.message}
+                  </Typography>
+                  {
+                    (status.parameters && <Typography>
+                      Your device token is: {status.parameters[0]}
+                    </Typography>)
+                  }
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
