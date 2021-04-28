@@ -5,3 +5,5 @@ function Devices() {
 
   return createElement(DevicesView, {});
 }
+
+export { Devices }

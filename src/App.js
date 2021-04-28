@@ -7,7 +7,7 @@ import {
 import { MainMenuView } from './view/mainMenuView'
 import { LoginView } from './view/loginView'
 import { RegisterView } from './view/registerView'
-import { DevicesView } from './view/devicesView'
+import { Devices } from './presenter/devices/devices'
 import { PermanentDrawerLeft } from './view/drawerView'
 
 
@@ -27,7 +27,7 @@ function App() {
         </Route>
         <Route path="/devices">
           <PermanentDrawerLeft>
-            <DevicesView />
+            <Devices />
           </PermanentDrawerLeft>
         </Route>
         <Route path="/">
