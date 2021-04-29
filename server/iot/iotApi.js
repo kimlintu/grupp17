@@ -1,7 +1,5 @@
 const fetch = require('node-fetch')
 
-const { iotStatus } = require('./iotApiStatusCodes')
-
 const iotServiceInfo = {
   "url": "https://udbne1.internetofthings.ibmcloud.com/api/v0002/",
   "api-key": "a-udbne1-pjkrdrdlsv",
@@ -52,19 +50,14 @@ async function iotApiCall({ resource, method, headers, body }) {
  *                   A failed api call will return an error object explaining the error.  
  */
 async function iotApiAddDevice({ device }) {
-  const response = await iotApiCall({ resource: 'device/types/test/devices', method: 'POST', body: device });
+  const response = await iotApiCall({ resource: 'device/types/step-counter/devices', method: 'POST', body: device });
 
-  const result = { "status": iotStatus.deviceConfStatus[response.status] };
+  if (response.status !== 201)
+    throw { status: response.status };
 
-  // If device has been added we want to return the device information.
-  if (response.status == 201) {
-    const data = await response.json();
-    result["data"] = data;
-  } else {
-    throw `Device could not be added, reason: ${response.status} ${response.statusText}`;
-  }
+  const data = await response.json();
 
-  return result; 
+  return data;
 }
 
 exports.iotApiAddDevice = iotApiAddDevice;

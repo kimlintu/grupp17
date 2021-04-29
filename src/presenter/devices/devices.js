@@ -10,7 +10,7 @@ function Devices() {
     addDevice: async (deviceName) => {
       if (deviceName !== "") {
         try {
-          setStatus({ status: 'loading', color: 'secondary' });
+          setStatus({ status: 'loading', message: 'Processing', color: 'primary' });
           const deviceToken = await addDeviceToHub({ "deviceName": deviceName });
 
           setStatus({ status: 'done', message: 'Device added', parameters: [deviceToken], color: 'primary' });

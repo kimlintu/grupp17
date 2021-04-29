@@ -26,5 +26,7 @@ yarn-error.log*
 # ibm cloud
 vcap-local.json/.env
 vcap-local.json
-/extra_info
 
+.env
+
+/extra_info

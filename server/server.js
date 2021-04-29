@@ -42,15 +42,13 @@ app.post('/step-counters/add', async (request, response) => {
     try {
         const addedDevice = await addDevice({ user: 'null', deviceName: request.body.deviceName });
 
-        // TODO: check if errors (device already added, connection errors, etc.)
-
         const deviceInfo = {
             deviceToken: addedDevice.authToken
         };
 
         response.json(deviceInfo);
     } catch (error) {
-
+        response.sendStatus(error.status)
     }
 })
 
