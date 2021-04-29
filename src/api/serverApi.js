@@ -19,16 +19,9 @@ async function apiPostRequest({ resource, data }) {
       body: JSON.stringify(data)
     });
 
-    // Check here if response is valid
-    if (server_response.status === 200) {
-      return server_response;
-    } else {
-      throw `Could not perform POST request for ${resource}. Status: ${server_response.status} ${server_response.statusText}`;
-    }
+    return server_response;
   } catch (error) {
-    console.log('fetch error: ', error)
-    
-    throw `Server communication failed.`
+    console.log(`Could not perform POST request for ${resource}. Error: ${error}`);
   }
 }
 

@@ -13,10 +13,20 @@ async function addDeviceToHub(device) {
   
   try {
     const response = await apiPostRequest({ resource: 'step-counters/add', data: device });
+
+    // Response will return a '201' status if device was added succesfully.
+    if(response.status !== 201) 
+      throw { errorStatus: response.status }
+    
     const data = await response.json();
 
     return data.deviceToken;
   } catch (error) {
+    // A '409' status code indicates that the device name has been taken.
+    if(error.errorStatus === 409) 
+      throw `A device with name ${device.deviceName} has already been added, please choose another name!`;
+
+    // Unknown error, send default error message.
     throw 'Could not add device'
   }
 }
