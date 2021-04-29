@@ -1,5 +1,6 @@
 import { createElement, useState } from "react";
 import { StepsView } from "../view/stepsView";
+import {apiGetRequest} from "../api/serverApi";
 
 
 function Steps(){
@@ -8,11 +9,14 @@ function Steps(){
 
     return createElement(StepsView, {
         getSteps: async () => {
-            const db_response = await fetch(`http://localhost:6001/steps`, {
-                method: 'GET'
-            });
-            const data = await db_response.json(); //get only the data from response
-            setSteps(data);
+            try{
+                const db_response = await apiGetRequest({resource: 'steps'});
+                const data = await db_response.json(); //get only the data from response
+                setSteps(data);
+            }catch(error){
+                console.log(error);
+            }
+            
         }
     , steps});
 };
