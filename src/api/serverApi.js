@@ -31,6 +31,26 @@ async function apiPostRequest({ resource, data }) {
     throw `Server communication failed.`
   }
 }
+/**
+ * Performs a HTTP GET request to the server
+ * 
+ * @param {string} resource The resource where the data should be sent, for example, '/steps'.
+ * @returns {object} The server response
+ */
+async function apiGetRequest({resource}){
+  try{
+    const server_response = await fetch(`http://localhost:6001/${resource}`, {
+      method: 'GET'
+    });
+    if(server_response.status === 200){
+      return server_response;
+    }else{
+      throw `Could not perform GET request for ${resource}. Status: ${server_response.status} ${server_response.statusText}`;
+    }
+  }catch(error){
+    console.log('fetch error: ', error)
+    throw `Server communication failed.`
+  }
+}
 
-
-export { apiPostRequest }
+export { apiPostRequest, apiGetRequest }
