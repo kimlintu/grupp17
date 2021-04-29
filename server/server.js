@@ -35,11 +35,7 @@ app.get('/steps', (request, response) => {
 
 
 
-//use specified DB, insert value and id of inserter
-//cloudant.use('kimpossible_test').insert({dog: true, happy: "NEJ", _rev: "3-01c17aede641d179b74d0716455bf968"}, 'kim');
-cloudant.use(current_database).get(user).then((data) => {
-    cloudant.use(current_database).insert({dog: true, happy: false, steps: 555, _rev: data._rev}, user)
-});
+
 
 
 app.post('/step-counters/add', async (request, response) => {
