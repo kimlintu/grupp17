@@ -24,7 +24,7 @@ async function apiPostRequest({ resource, data }) {
     if (server_response.status === 200) {
       return server_response;
     } else {
-      throw `Could not perform GET request for ${resource}. Status: ${server_response.status} ${server_response.statusText}`;
+      throw { errorStatus: server_response.status, message: `Could not perform POST request for ${resource}. Status: ${server_response.status} ${server_response.statusText}` };
     }
   } catch (error) {
     console.log('fetch error: ', error)

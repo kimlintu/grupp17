@@ -13,11 +13,6 @@ async function addDeviceToHub(device) {
   
   try {
     const response = await apiPostRequest({ resource: 'step-counters/add', data: device });
-
-    // Response will return a '201' status if device was added succesfully.
-    if(response.status !== 201) 
-      throw { errorStatus: response.status }
-    
     const data = await response.json();
 
     return data.deviceToken;
