@@ -29,7 +29,15 @@ app.post('/step-counters/add', async (request, response) => {
 
         response.json(deviceInfo);
     } catch (error) {
+        response.status(error.status);
+        
+        switch(error.status) {
+            case 409: 
+                error.statusText = `A device with the name ${request.body.deviceName} already exists, please choose another name`;
+            break;
+        }
 
+        response.json(error);
     }
 })
 

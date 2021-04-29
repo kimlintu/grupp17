@@ -61,10 +61,11 @@ async function iotApiAddDevice({ device }) {
     const data = await response.json();
     result["data"] = data;
   } else {
-    throw `Device could not be added, reason: ${response.status} ${response.statusText}`;
+    const data = await response.json();
+    throw { status: response.status, statusText: response.statusText };
   }
 
-  return result; 
+  return result;
 }
 
 exports.iotApiAddDevice = iotApiAddDevice;
