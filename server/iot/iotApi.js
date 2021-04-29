@@ -1,9 +1,9 @@
 const fetch = require('node-fetch')
 
 const iotServiceInfo = {
-  "url": "https://udbne1.internetofthings.ibmcloud.com/api/v0002/",
-  "api-key": "a-udbne1-pjkrdrdlsv",
-  "auth": "YS11ZGJuZTEtcGprcmRyZGxzdjpReXliMFEzaGtvQzBjd1NnbjIK"
+  "url": process.env.iot_url,
+  "api-key": process.env.iot_apikey,
+  "auth": process.env.iot_auth
 };
 
 /**
@@ -57,7 +57,7 @@ async function iotApiAddDevice({ device }) {
 
   const data = await response.json();
 
-  return data;
+  return { data };
 }
 
 exports.iotApiAddDevice = iotApiAddDevice;

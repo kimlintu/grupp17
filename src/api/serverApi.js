@@ -21,9 +21,14 @@ async function apiPostRequest({ resource, data }) {
       body: JSON.stringify(data)
     });
 
-    return server_response;
+    if (server_response.status === 200) {
+      return server_response;
+    } else {
+      throw `Could not perform GET request for ${resource}. Status: ${server_response.status} ${server_response.statusText}`;
+    }
   } catch (error) {
-    console.log(`Could not perform POST request for ${resource}. Error: ${error}`);
+    console.log('fetch error: ', error)
+    throw error;
   }
 }
 /**
@@ -32,19 +37,19 @@ async function apiPostRequest({ resource, data }) {
  * @param {string} resource The resource where the data should be sent, for example, '/steps'.
  * @returns {object} The server response
  */
-async function apiGetRequest({resource}){
-  try{
+async function apiGetRequest({ resource }) {
+  try {
     const server_response = await fetch(`${serverUrl}/${resource}`, {
       method: 'GET'
     });
-    if(server_response.status === 200){
+    if (server_response.status === 200) {
       return server_response;
-    }else{
+    } else {
       throw `Could not perform GET request for ${resource}. Status: ${server_response.status} ${server_response.statusText}`;
     }
-  }catch(error){
+  } catch (error) {
     console.log('fetch error: ', error)
-    throw `Server communication failed.`
+    throw error;
   }
 }
 

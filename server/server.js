@@ -33,11 +33,6 @@ app.get('/steps', (request, response) => {
     })
 });
 
-
-
-
-
-
 app.post('/step-counters/add', async (request, response) => {
     try {
         const addedDevice = await addDevice({ user: 'null', deviceName: request.body.deviceName });
@@ -51,7 +46,6 @@ app.post('/step-counters/add', async (request, response) => {
         response.sendStatus(error.status)
     }
 })
-
 
 /* Environment for Cloud Foundry app (watchyoursteps). Contains things such as 
    application port, connected services etc., for the website. */
