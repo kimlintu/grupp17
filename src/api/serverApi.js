@@ -1,3 +1,5 @@
+const serverUrl = 'https://watchyoursteps.eu-gb.cf.appdomain.cloud';
+
 /**
  * Performs a HTTP POST request to the server. 
  * 
@@ -11,7 +13,7 @@
  */
 async function apiPostRequest({ resource, data }) {
   try {
-    const server_response = await fetch(`http://localhost:6001/${resource}`, {
+    const server_response = await fetch(`${serverUrl}/${resource}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -32,7 +34,7 @@ async function apiPostRequest({ resource, data }) {
  */
 async function apiGetRequest({resource}){
   try{
-    const server_response = await fetch(`http://localhost:6001/${resource}`, {
+    const server_response = await fetch(`${serverUrl}/${resource}`, {
       method: 'GET'
     });
     if(server_response.status === 200){
