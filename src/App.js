@@ -8,6 +8,7 @@ import {
 import { MainMenuView } from './view/mainMenuView'
 import { LoginView } from './view/loginView'
 import { RegisterView } from './view/registerView'
+import { Steps } from './presenter/steps'
 
 
 function App() {
@@ -20,6 +21,9 @@ function App() {
       <Switch>
         <Route path="/login">
           <LoginView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+        </Route>
+        <Route path="/steps">
+          <Steps />
         </Route>
        {/*  <Route path="/login/test">
           <h2>@login/test</h2>
@@ -37,6 +41,7 @@ function App() {
         <Route path="/">
           <MainMenuView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
         </Route>
+        
 
       </Switch>
     </Router>

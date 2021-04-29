@@ -70,12 +70,14 @@ function PermanentDrawerLeft() {
         <div className={classes.toolbar} />
         <Divider />
         <List>
+          <Link to="/steps">
           <ListItem button key={"Add steps"}>
             <ListItemIcon>
               <AddIcon />
             </ListItemIcon>
             <ListItemText primary={"Add steps"}/>
           </ListItem>
+          </Link>
           <ListItem button key={"Add friend"}>
             <ListItemIcon>
               <AddIcon />
