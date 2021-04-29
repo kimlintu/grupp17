@@ -52,7 +52,7 @@ async function iotApiCall({ resource, method, headers, body }) {
  *                   A failed api call will return an error object explaining the error.  
  */
 async function iotApiAddDevice({ device }) {
-  const response = await iotApiCall({ resource: 'device/types/test/devices', method: 'POST', body: device });
+  const response = await iotApiCall({ resource: 'device/types/step-counter/devices', method: 'POST', body: device });
 
   const result = { "status": iotStatus.deviceConfStatus[response.status] };
 
