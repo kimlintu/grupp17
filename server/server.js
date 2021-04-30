@@ -11,7 +11,7 @@ const servePath = path.join(__dirname, '../build');
 
 const current_database = 'kimpossible_test'; //current database
 const user = 'kim'; //current user
-const { addDevice } = require('./iot/iot')
+const { addDevice, getDeviceList } = require('./iot/iot')
 
 
 /* Makes it so that all files get served from the build/ directory */
@@ -33,6 +33,16 @@ app.get('/steps', (request, response) => {
     })
 });
 
+app.get('/step-counters/get', async (request, response) => {
+    try {
+        const deviceList = await getDeviceList({ user: { name: 'test-user' }});
+        
+        response.json(deviceList);
+    } catch (error) {
+        response.sendStatus(error.status)
+    }
+})
+
 app.post('/step-counters/add', async (request, response) => {
     try {
         const addedDevice = await addDevice({ user: { name: 'test-user' }, deviceName: request.body.deviceName });
@@ -45,7 +55,7 @@ app.post('/step-counters/add', async (request, response) => {
     } catch (error) {
         response.sendStatus(error.status)
     }
-})
+});
 
 /* Environment for Cloud Foundry app (watchyoursteps). Contains things such as 
    application port, connected services etc., for the website. */
