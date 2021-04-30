@@ -29,8 +29,9 @@ async function addDevice({ user, deviceName, deviceInformation, deviceAuthToken 
     if (deviceAuthToken)
       device["authToken"] = deviceAuthToken;
 
-    if (deviceInformation)
-      device["deviceInfo"] = deviceInformation;
+    // We use the "deviceClass" later parameter to identify which device belongs to which user. 
+    device["deviceInfo"] = (deviceInformation ? deviceInformation : {});
+    device["deviceInfo"]["deviceClass"] = user.name;
 
     // First we try to add the device to the IoT hub.
     const addedDevice = await iotApiAddDevice({ device });
