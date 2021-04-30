@@ -47,6 +47,14 @@ app.post('/step-counters/add', async (request, response) => {
     }
 })
 
+app.post('/steps/add', (request, response) => {
+    console.log("steps to be written: ", request.body.numberOfSteps);
+    cloudant.use(current_database).get(user).then((data) =>{
+        const doc = data;
+        cloudant.use(current_database).insert({_rev: doc._rev, steps: request.body.numberOfSteps}, user);
+    })
+})
+
 /* Environment for Cloud Foundry app (watchyoursteps). Contains things such as 
    application port, connected services etc., for the website. */
 const app_env = cfenv.getAppEnv({ vcapFile: 'vcap-local.json' });
