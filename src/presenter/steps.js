@@ -1,10 +1,11 @@
 import { createElement, useState } from "react";
 import { StepsView } from "../view/stepsView";
-import {apiGetRequest} from "../api/serverApi";
+import {apiGetRequest, apiPostRequest} from "../api/serverApi";
 
 
 function Steps(){
     const [steps, setSteps] = useState('');
+    const [status, setStatus] = useState('');
     console.log("STEPSSTATE:", steps);
 
     return createElement(StepsView, {
@@ -18,7 +19,17 @@ function Steps(){
             }
             
         }
-    , steps});
+        , steps, 
+        postSteps: async (numberOfSteps) => {
+            try{
+                const db_response = await apiPostRequest({resource: 'steps/add', data: {numberOfSteps: numberOfSteps}});
+                const data = await db_response.status;
+                setStatus(data);
+            }catch(error){
+                throw 'could not upload to database';
+                console.log(error);
+            }
+        }, status});
 };
 
 export { Steps };

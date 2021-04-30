@@ -1,9 +1,13 @@
 import { Link, useRouteMatch } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-const StepsView = ({getSteps, steps}) => {
+import {Typography, TextField} from '@material-ui/core';
+import {useState} from 'react';
+const StepsView = ({getSteps, steps, postSteps, status}) => {
     const match = useRouteMatch(); {/* match contains info about current <Route>,
     i.e. "/login". It can be used to perform relative routing (see below). */}
+    const [uploadSteps, setUploadSteps] = useState('');
     console.log("STEPSTATE IN VIEW: ", steps);
+    console.log("steps to send: ", uploadSteps);
+    console.log("STATUS: ", status);
     return <div style={{
       backgroundColor: 'lightgreen',
     }}>
@@ -22,6 +26,13 @@ const StepsView = ({getSteps, steps}) => {
       </button>
       <Typography paragraph>
         STEPS RECORDED IN DATABASE: {steps}
+      </Typography>
+      <TextField id="filled-basic" label="Insert steps" variant="filled" onChange={(e) => setUploadSteps(e.target.value)} />
+      <button onClick={() => postSteps(uploadSteps)}>
+        Send steps to database!
+      </button>
+      <Typography paragraph>
+        STATUS ON WRITING TO DB: {status}
       </Typography>
 
       
