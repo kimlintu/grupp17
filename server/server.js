@@ -35,7 +35,7 @@ app.get('/steps', (request, response) => {
 
 app.post('/step-counters/add', async (request, response) => {
     try {
-        const addedDevice = await addDevice({ user: 'null', deviceName: request.body.deviceName });
+        const addedDevice = await addDevice({ user: { name: 'test-user' }, deviceName: request.body.deviceName });
 
         const deviceInfo = {
             deviceToken: addedDevice.authToken
