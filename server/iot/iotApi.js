@@ -41,6 +41,17 @@ async function iotApiCall({ resource, method, headers, body }) {
   return response;
 }
 
+async function iotApiGetResponseData(apiCall, parameters, desiredResponseStatus) {
+  const response = await apiCall(parameters);
+
+  if (response.status !== desiredResponseStatus)
+    throw { status: response.status };
+
+  const data = await response.json();
+
+  return { data };
+}
+
 /**
  * Adds the specified device to the IBM Watson IoT hub.
  * 
@@ -50,14 +61,23 @@ async function iotApiCall({ resource, method, headers, body }) {
  *                   A failed api call will return an error object explaining the error.  
  */
 async function iotApiAddDevice({ device }) {
-  const response = await iotApiCall({ resource: 'device/types/step-counter/devices', method: 'POST', body: device });
+  const deviceData = await iotApiGetResponseData(iotApiCall, { resource: 'device/types/step-counter/devices', method: 'POST', body: device }, 201);
 
-  if (response.status !== 201)
-    throw { status: response.status };
+  return deviceData;
+}
 
-  const data = await response.json();
+/**
+ * Retrieves a list of devices added by the user from the Watson IoT hub.
+ * 
+ * @param {object} user The user that owns the devices. 
+ * 
+ * @returns {array} the list of devices as an array.
+ */
+async function iotApiGetDeviceList({ user }) {
+  const deviceListData = await iotApiGetResponseData(iotApiCall, { resource: 'bulk/devices', method: 'GET' }, 200);
 
-  return { data };
+  return deviceListData;
 }
 
 exports.iotApiAddDevice = iotApiAddDevice;
+exports.iotApiGetDeviceList = iotApiGetDeviceList;
