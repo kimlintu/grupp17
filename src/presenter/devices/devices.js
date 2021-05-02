@@ -1,10 +1,17 @@
-import { createElement, useState } from "react";
+import { createElement, useEffect, useState } from "react";
 import { DevicesView } from "../../view/devicesView"
 
-import { addDeviceToHub } from '../../api/serverIotApi'
+import { addDeviceToHub, getAddedDevicesList } from '../../api/serverIotApi'
 
 function Devices() {
   const [status, setStatus] = useState('');
+  const [deviceList, setDeviceList] = useState(null);
+
+  useEffect(() => {
+    getAddedDevicesList().then(list => {
+      setDeviceList(list.results);
+    })
+  }, []);
 
   return createElement(DevicesView, {
     addDevice: async (deviceName) => {
@@ -21,6 +28,7 @@ function Devices() {
         setStatus({ status: 'error', message: 'Name cannot be empty', color: 'error' });
       }
     },
+    deviceList,
     status
   });
 }
