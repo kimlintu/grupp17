@@ -26,6 +26,11 @@ async function addDeviceToHub(device) {
   }
 }
 
+/**
+ * Retrieve information about added devices. 
+ * 
+ * @returns {object} a JSON object containing information about added devices.
+ */
 async function getAddedDevicesList() {
   try {
     const response = await apiGetRequest({ resource: 'step-counters/get'});
