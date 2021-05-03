@@ -4,11 +4,11 @@ import HighlightOffSharpIcon from '@material-ui/icons/HighlightOffSharp'
 import ViewListSharpIcon from '@material-ui/icons/ViewListSharp'
 
 import { Fragment } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Route, useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 
-const DevicesView = ({ addDevice, deviceList, status }) => {
+const DevicesView = ({ addDevice, getDeviceList, status }) => {
   const match = useRouteMatch();
 
   return <Fragment>
@@ -16,7 +16,7 @@ const DevicesView = ({ addDevice, deviceList, status }) => {
       <AddDeviceView addDevice={addDevice} status={status} />
     </Route>
     <Route path={`${match.path}/list`}>
-      <ListDevicesView deviceList={deviceList} />
+      <ListDevicesView getDeviceList={getDeviceList} />
     </Route>
     <Route path={`${match.path}`}>
       <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }} justify="center">
@@ -70,9 +70,15 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function ListDevicesView({ deviceList }) {
-  console.log('list: ', deviceList
-  )
+function ListDevicesView({ getDeviceList }) {
+  const [deviceList, setDeviceList] = useState(null);
+
+  useEffect(() => {
+    getDeviceList().then(list => {
+      setDeviceList(list.results);
+    })
+  }, []);
+
   return <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }}>
     <Grid item xs={12}>
       <Grid container justify="center">
@@ -86,7 +92,7 @@ function ListDevicesView({ deviceList }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {deviceList && deviceList.map(device => {
+                {(deviceList && deviceList.map(device => {
                   return <StyledTableRow key={device.deviceId}>
                     <StyledTableCell align="center" component="th" scope="row">
                       <Typography style={{ fontWeight: "bold" }}>
@@ -99,7 +105,7 @@ function ListDevicesView({ deviceList }) {
                       </IconButton>
                     </StyledTableCell>
                   </StyledTableRow>
-                })}
+                })) || <Typography>Loading...</Typography>}
               </TableBody>
             </Table>
           </TableContainer>
