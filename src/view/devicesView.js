@@ -1,7 +1,115 @@
-import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core'
-import { useState } from 'react';
+import { Button, Grid, IconButton, Paper, Table, TableBody, TableContainer, TableHead, TextField, Typography, TableCell, TableRow, withStyles } from '@material-ui/core'
+import AddBoxIcon from '@material-ui/icons/AddBox'
+import HighlightOffSharpIcon from '@material-ui/icons/HighlightOffSharp'
+import ViewListSharpIcon from '@material-ui/icons/ViewListSharp'
 
-const DevicesView = ({ addDevice, status }) => {
+import { Fragment } from 'react';
+import { useState } from 'react';
+import { Route, useRouteMatch } from 'react-router';
+import { Link } from 'react-router-dom';
+
+const DevicesView = ({ addDevice, deviceList, status }) => {
+  const match = useRouteMatch();
+
+  return <Fragment>
+    <Route path={`${match.path}/add`}>
+      <AddDeviceView addDevice={addDevice} status={status} />
+    </Route>
+    <Route path={`${match.path}/list`}>
+      <ListDevicesView deviceList={deviceList} />
+    </Route>
+    <Route path={`${match.path}`}>
+      <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }} justify="center">
+        <DevicesSelectionPaper linkPath={`${match.url}/list`} text="LIST" Icon={ViewListSharpIcon} iconColor="#92B9BD" />
+        <DevicesSelectionPaper linkPath={`${match.url}/add`} text="ADD" Icon={AddBoxIcon} iconColor="#A8D4AD" />
+      </Grid>
+    </Route>
+  </Fragment >
+}
+
+function DevicesSelectionPaper({ linkPath, text, Icon, iconColor }) {
+  return <Grid item>
+    <Grid container justify="center">
+      <Paper style={{ "height": 500, "width": 500, "margin": 50}}>
+        <Grid container justify="center">
+          <Grid item xs={12} style={{ textAlign: "center", paddingTop: "25%" }}>
+            <Typography style={{ fontWeight: "bold", fontSize: 50 }}>
+              {text}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container justify="center">
+              <Link to={`${linkPath}`}>
+                <IconButton >
+                  <Icon style={{ "height": 200, "width": 200, color: iconColor }} />
+                </IconButton>
+              </Link>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
+    </Grid>
+  </Grid>
+}
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
+function ListDevicesView({ deviceList }) {
+  console.log('list: ', deviceList
+  )
+  return <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }}>
+    <Grid item xs={12}>
+      <Grid container justify="center">
+        <Paper style={{ "height": 500, "width": 500, overflow: "auto" }}>
+          <TableContainer>
+            <Table style={{ minWidth: 500 }}>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell align="center">Name</StyledTableCell>
+                  <StyledTableCell></StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {deviceList && deviceList.map(device => {
+                  return <StyledTableRow key={device.deviceId}>
+                    <StyledTableCell align="center" component="th" scope="row">
+                      <Typography style={{ fontWeight: "bold" }}>
+                        {device.deviceId}
+                      </Typography>
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <IconButton >
+                        <HighlightOffSharpIcon style={{width: 30, height: 30}} color="secondary" />
+                      </IconButton>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Grid>
+    </Grid>
+  </Grid>
+}
+
+function AddDeviceView({ addDevice, status }) {
   const [deviceName, setDeviceName] = useState("device_name");
 
   return <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }}>
@@ -22,7 +130,7 @@ const DevicesView = ({ addDevice, status }) => {
                   disabled={(status.status === 'loading')}
                   onClick={() => addDevice(deviceName)}>
                   Add device
-                  </Button>
+            </Button>
                 <Grid item xs={12} style={{ textAlign: "center" }}>
                   <Typography color={status.color} style={{ fontWeight: "bold" }}>
                     {status.message}

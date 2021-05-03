@@ -6,7 +6,7 @@
  * 
  ********************************************************************************/
 
-const { iotApiAddDevice } = require('./iotApi')
+const { iotApiAddDevice, iotApiGetDeviceList } = require('./iotApi')
 
 /**
  * Registers the device at the IBM Watson IoT service and and saves it under the user
@@ -29,13 +29,14 @@ async function addDevice({ user, deviceName, deviceInformation, deviceAuthToken 
     if (deviceAuthToken)
       device["authToken"] = deviceAuthToken;
 
-    if (deviceInformation)
-      device["deviceInfo"] = deviceInformation;
+    // We use the "deviceClass" later parameter to identify which device belongs to which user. 
+    device["deviceInfo"] = (deviceInformation ? deviceInformation : {});
+    device["deviceInfo"]["deviceClass"] = user.name;
 
     // First we try to add the device to the IoT hub.
     const addedDevice = await iotApiAddDevice({ device });
 
-    if(addedDevice.data) {
+    if (addedDevice.data) {
       // TODO: Link the device to the user in the database.
 
       return addedDevice.data;
@@ -44,4 +45,22 @@ async function addDevice({ user, deviceName, deviceInformation, deviceAuthToken 
   }
 }
 
+/**
+ * Returns the devices (step-counters) that have been added by the specified user.
+ *  
+ * @param {object} user The user which device list should be retrieved
+ * 
+ * @returns {array} an array with device objects containing information about the device. 
+ */
+async function getDeviceList({ user }) {
+  if(!user) {
+    /* MISSING ARGUMENTS ERROR */
+  }
+
+  const deviceList = await iotApiGetDeviceList({ user });
+
+  return deviceList.data;
+}
+
 exports.addDevice = addDevice;
+exports.getDeviceList = getDeviceList;

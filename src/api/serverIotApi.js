@@ -1,4 +1,4 @@
-import { apiPostRequest } from './serverApi'
+import { apiPostRequest, apiGetRequest } from './serverApi'
 
 /**
  * Adds the device to the Watson IoT hub and returns the generated device auth token.
@@ -26,4 +26,20 @@ async function addDeviceToHub(device) {
   }
 }
 
-export { addDeviceToHub }
+/**
+ * Retrieve information about added devices. 
+ * 
+ * @returns {object} a JSON object containing information about added devices.
+ */
+async function getAddedDevicesList() {
+  try {
+    const response = await apiGetRequest({ resource: 'step-counters/get'});
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export { addDeviceToHub, getAddedDevicesList }
