@@ -5,13 +5,13 @@ import ViewListSharpIcon from '@material-ui/icons/ViewListSharp'
 
 import { Fragment } from 'react';
 import { useState, useEffect } from 'react';
-import { Route, useRouteMatch } from 'react-router';
+import { Route, Switch, useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 
 const DevicesView = ({ addDevice, getDeviceList, status }) => {
   const match = useRouteMatch();
 
-  return <Fragment>
+  return <Switch>
     <Route path={`${match.path}/add`}>
       <AddDeviceView addDevice={addDevice} status={status} />
     </Route>
@@ -24,13 +24,13 @@ const DevicesView = ({ addDevice, getDeviceList, status }) => {
         <DevicesSelectionPaper linkPath={`${match.url}/add`} text="ADD" Icon={AddBoxIcon} iconColor="#A8D4AD" />
       </Grid>
     </Route>
-  </Fragment >
+  </Switch>
 }
 
 function DevicesSelectionPaper({ linkPath, text, Icon, iconColor }) {
   return <Grid item>
     <Grid container justify="center">
-      <Paper style={{ "height": 500, "width": 500, "margin": 50}}>
+      <Paper style={{ "height": 500, "width": 500, "margin": 50 }}>
         <Grid container justify="center">
           <Grid item xs={12} style={{ textAlign: "center", paddingTop: "25%" }}>
             <Typography style={{ fontWeight: "bold", fontSize: 50 }}>
@@ -101,7 +101,7 @@ function ListDevicesView({ getDeviceList }) {
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       <IconButton >
-                        <HighlightOffSharpIcon style={{width: 30, height: 30}} color="secondary" />
+                        <HighlightOffSharpIcon style={{ width: 30, height: 30 }} color="secondary" />
                       </IconButton>
                     </StyledTableCell>
                   </StyledTableRow>
@@ -117,11 +117,12 @@ function ListDevicesView({ getDeviceList }) {
 
 function AddDeviceView({ addDevice, status }) {
   const [deviceName, setDeviceName] = useState("device_name");
+  const [deviceToken, setDeviceToken] = useState(null);
 
   return <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }}>
     <Grid item xs={12}>
       <Grid container justify="center">
-        <Paper style={{ "height": 500, "width": 500 }}>
+        <Paper style={{ "height": 600, "width": 500 }}>
           <Grid container style={{ "padding": "40px" }}>
             <Grid item xs={12}>
               <Grid container justify="center" style={{ "padding": "40px" }}>
@@ -130,11 +131,21 @@ function AddDeviceView({ addDevice, status }) {
                 </form>
               </Grid>
             </Grid>
+            <hr style={{ width: 400 }} />
+            <Grid item xs={12}>
+              <Grid container justify="center" style={{ "padding": "40px" }}>
+                <Typography>Token has to be between 8 and 36 characters.</Typography>
+                <form>
+                  <TextField id="outlined-basic" label="Token" onChange={(e) => setDeviceToken(e.target.value)} variant="outlined" />
+                </form>
+              </Grid>
+            </Grid>
+            <hr style={{ width: 400 }} />
             <Grid item xs={12}>
               <Grid container justify="center">
                 <Button variant="contained" color="primary" disableElevation style={{ "padding": "40px", "fontWeight": "bold" }}
                   disabled={(status.status === 'loading')}
-                  onClick={() => addDevice(deviceName)}>
+                  onClick={() => addDevice(deviceName, deviceToken)}>
                   Add device
             </Button>
                 <Grid item xs={12} style={{ textAlign: "center" }}>
