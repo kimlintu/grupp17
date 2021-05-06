@@ -117,6 +117,7 @@ function ListDevicesView({ getDeviceList }) {
 
 function AddDeviceView({ addDevice, status }) {
   const [deviceName, setDeviceName] = useState("device_name");
+  const [deviceToken, setDeviceToken] = useState(null);
 
   return <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }}>
     <Grid item xs={12}>
@@ -131,10 +132,17 @@ function AddDeviceView({ addDevice, status }) {
               </Grid>
             </Grid>
             <Grid item xs={12}>
+              <Grid container justify="center" style={{ "padding": "40px" }}>
+                <form>
+                  <TextField id="outlined-basic" label="Token" onChange={(e) => setDeviceToken(e.target.value)} variant="outlined" />
+                </form>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
               <Grid container justify="center">
                 <Button variant="contained" color="primary" disableElevation style={{ "padding": "40px", "fontWeight": "bold" }}
                   disabled={(status.status === 'loading')}
-                  onClick={() => addDevice(deviceName)}>
+                  onClick={() => addDevice(deviceName, deviceToken)}>
                   Add device
             </Button>
                 <Grid item xs={12} style={{ textAlign: "center" }}>
