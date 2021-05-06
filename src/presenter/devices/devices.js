@@ -7,11 +7,14 @@ function Devices() {
   const [status, setStatus] = useState('');
 
   return createElement(DevicesView, {
-    addDevice: async (deviceName) => {
+    addDevice: async (deviceName, token) => {
       if (deviceName !== "") {
         try {
           setStatus({ status: 'loading', message: 'Processing', color: 'primary' });
-          const deviceToken = await addDeviceToHub({ "deviceName": deviceName });
+
+          const device = { "deviceName": deviceName, "deviceToken": token };
+
+          const deviceToken = await addDeviceToHub(device);
 
           setStatus({ status: 'done', message: 'Device added', parameters: [deviceToken], color: 'primary' });
         } catch (error) {
