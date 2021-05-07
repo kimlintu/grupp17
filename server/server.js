@@ -1,7 +1,48 @@
 const { cloudant } = require('./db/db_init.js');
 
 const express = require('express');
+const session = require('express-session')
+const passport = require('passport');
+const WebAppStrategy = require("ibmcloud-appid").WebAppStrategy;
+
 const app = express();
+
+app.use(session({
+    secret: "123456",
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(function(user, cb) {
+ cb(null, user);
+ });
+passport.deserializeUser(function(obj, cb) {
+ cb(null, obj);
+ });
+
+passport.use(new WebAppStrategy({
+    tenantId: "33e5e308-d5bb-420f-ad88-a2cafe836c67",
+    clientId: "bb4220c0-67a1-4451-b069-9565827b39e9",
+    secret: "Y2MxYzZjYzQtZjRkOC00NGE1LTg3ZjktNDc2YjA4N2RiZjky",
+    oAuthServerUrl: "https://eu-gb.appid.cloud.ibm.com/oauth/v4/33e5e308-d5bb-420f-ad88-a2cafe836c67",
+    redirectUri: "http://localhost:6001/appid/callback"
+    }))
+
+
+app.get('/appid/login', passport.authenticate(WebAppStrategy.STRATEGY_NAME,{
+    successRedirect: '/',
+    forceLogin: true
+}))
+
+
+app.get('/appid/callback', passport.authenticate(WebAppStrategy.STRATEGY_NAME));
+
+app.use(passport.authenticate(WebAppStrategy.STRATEGY_NAME));
+
+//app.use(express.static('./public'));
+
+
 const path = require('path');
 const cfenv = require('cfenv'); // Cloud Foundry environment (port, ip etc.)
 //const cloudant = require('@cloudant/cloudant/types');
