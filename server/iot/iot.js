@@ -6,7 +6,7 @@
  * 
  ********************************************************************************/
 
-const { iotApiAddDevice, iotApiGetDeviceList } = require('./iotApi')
+const { iotApiAddDevice, iotApiGetDeviceList, registerService } = require('./iotApi')
 
 /**
  * Registers the device at the IBM Watson IoT service and and saves it under the user
@@ -60,6 +60,19 @@ async function getDeviceList({ user }) {
   const deviceList = await iotApiGetDeviceList({ user });
 
   return deviceList.data;
+}
+
+async function connectHubToDB() {
+  const credentials = {
+    "username": process.env.cld_username,
+    "password": process.env.cld_password,
+    "host": process.env.cld_host,
+    "port": process.env.cld_port,
+    "url": process.env.cld_url
+  };
+
+  let id;
+  ({ id } = await registerService('cloudant', 'IoTCloudant', 'Cloudant service', credentials));
 }
 
 exports.addDevice = addDevice;
