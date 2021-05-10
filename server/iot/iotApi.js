@@ -79,5 +79,29 @@ async function iotApiGetDeviceList({ user }) {
   return deviceListData;
 }
 
+/**
+ * Registers a service with the specified parameters.
+ * 
+ * @param {string} type The type of service, for example "cloudant" for a Cloudant DB service. 
+ * @param {*} name Name of the service, could be anything.
+ * @param {*} description Description of the service, could be anything.
+ * @param {*} credentials Credentials formatted as per https://docs.internetofthings.ibmcloud.com/apis/swagger/v0002/historian-connector.html#/Services/post_s2s_services.
+ * 
+ * @returns info about the registered service, including the service id that can be used to create the connector https://docs.internetofthings.ibmcloud.com/apis/swagger/v0002/historian-connector.html#/HistorianConnectors. 
+ */
+async function registerService(type, name, description, credentials) {
+  const serviceToRegister = {
+    name, 
+    type, 
+    description,
+    credentials
+  };
+
+  const serviceInfo = await iotApiGetResponseData(iotApiCall, {resource: 's2s/services', method: 'POST', body: serviceToRegister}, 201);
+
+  return serviceInfo;
+}
+
 exports.iotApiAddDevice = iotApiAddDevice;
 exports.iotApiGetDeviceList = iotApiGetDeviceList;
+exports.registerService = registerService;
