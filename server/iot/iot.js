@@ -6,7 +6,9 @@
  * 
  ********************************************************************************/
 
-const { iotApiAddDevice, iotApiGetDeviceList, registerService } = require('./iotApi')
+const { iotApiAddDevice, iotApiGetDeviceList, 
+        registerService, createConnector,
+        createConnectorDestination, createForwardingRule } = require('./iotApi')
 
 /**
  * Registers the device at the IBM Watson IoT service and and saves it under the user
@@ -71,9 +73,25 @@ async function connectHubToDB() {
     "url": process.env.cld_url
   };
 
-  let id;
-  ({ id } = await registerService('cloudant', 'IoTCloudant', 'Cloudant service', credentials));
+  const type = 'cloudant';
+
+  const serviceInfo = await registerService(type, 'CloudantService', 'Cloudant service', credentials);
+  const serviceId = serviceInfo.data.id;
+  console.log('info ', serviceInfo)
+
+  const connectorInfo = await createConnector(type, 'Connector', 'Connector for Watson', serviceId, 'UTC');
+  const connectorId = connectorInfo.data.id;
+  console.log('info ', connectorInfo)
+
+  const destinationInfo = await createConnectorDestination(type, 'step_counter_data', connectorId, 'DAY');
+  const destinationName = destinationInfo.data.name;
+  console.log('info ', destinationInfo)
+
+  const rule = await createForwardingRule('dest rule', destinationName, connectorId, 'step-counter', 'Step-data');
+  console.log('info ', rule)
+
 }
 
 exports.addDevice = addDevice;
 exports.getDeviceList = getDeviceList;
+exports.connectHubToDB = connectHubToDB;
