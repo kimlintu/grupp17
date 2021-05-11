@@ -1,36 +1,64 @@
 import React from 'react';
+import { Button, Grid, Typography, TextField, Paper } from '@material-ui/core';
 
-function StepcounterView({uploadData, submitLocally, tokenStatus, connect, disconnect, connectionStatus, status}) {
+function StepcounterView({ uploadData, submitLocally, tokenStatus, connect, disconnect, connectionStatus, status }) {
 
     const [formValue_id, setFormValue_id] = React.useState("");
-    const [formValue_token, setFormValue_token ] = React.useState("");
+    const [formValue_token, setFormValue_token] = React.useState("");
     const [formValue_steps, setFormValue_steps] = React.useState("");
-   // const [con_stat, setConnectionStatus ] = React.useState(connectionStatus());
-    
-    return <div className="View">
-        <header className="View-header">
-            <p>
-               Connect your device
-            </p>
-            
-            Enter device-id
-            <input value={formValue_id} onChange={(e) => setFormValue_id(e.target.value)}></input>
-            Enter token
-            <input value={formValue_token} onChange={(e) => setFormValue_token(e.target.value)}></input>
-            <br/>
 
-            {connectionStatus ? "Enter steps" : ""}
-            {connectionStatus ? (<input value={formValue_steps} onChange={(e) => setFormValue_steps(e.target.value)}></input>) : ""}
-            <p>
-                Status: {status.message}
-            </p>
-            <button id="sub-local" onClick={() => submitLocally(formValue_id, formValue_token)}>Set Local state</button>
-            <br/>
-            <button id="con-stat" onClick={connectionStatus ? () => disconnect() : () => connect() } >{connectionStatus ? "Disconnect" : "Connect"}</button>
-            <br/>
-            <button onClick={() => uploadData(formValue_steps) } disabled={connectionStatus === false}>Upload data</button>
-        </header>
-    </div>
+    return <Grid item>
+        <Grid container justify="center">
+            <Grid container justify="center">
+                <Typography style={{ fontWeight: "bold" }}>Enter device information</Typography>
+            </Grid>
+            <Grid container justify="center">
+                <Paper elevation={3} style={{ "height": 300, "width": 300, "margin": 5 }}>
+                    <Grid style={{ "margin": 5 }}>
+                        <Grid container justify="center">
+                            <form>
+                                <TextField id="outlined-basic" label="Device id" onChange={(e) => setFormValue_id(e.target.value)} variant="outlined" />
+                            </form>
+                        </Grid>
+                    </Grid>
+                    <Grid style={{ "margin": 5 }}>
+                        <Grid container justify="center">
+                            <form>
+                                <TextField id="outlined-basic" label="Device token" onChange={(e) => setFormValue_token(e.target.value)} variant="outlined" />
+                            </form>
+                        </Grid>
+                    </Grid>
+                    <Grid container justify="center">
+                        {connectionStatus ? (<Grid container justify="center">
+                            <form>
+                                <TextField id="outlined-basic" label="Enter Steps" onChange={(e) => setFormValue_steps(e.target.value)} variant="outlined" />
+                            </form>
+                        </Grid>) : ""}
+                    </Grid>
+                    <Grid container justify="center" style={{ "margin": 2 }} >
+                        <Grid style={{ "margin": 2 }}>
+                            <Button variant="contained" color="primary" onClick={() => submitLocally(formValue_id, formValue_token)}>Set Local State</Button>
+                        </Grid>
+                    </Grid>
+                    <Grid container justify="center" alignItems="flex-end">
+                        <Grid style={{ "margin": 2 }}>
+                            <Button variant="contained" color="primary" onClick={connectionStatus ? () => disconnect() : () => connect()} >
+                                {connectionStatus ? "Disconnect" : "Connect"}
+                            </Button>
+                        </Grid>
+                        <Grid style={{ "margin": 2 }}>
+                            <Button variant="contained" color="primary" onClick={() => uploadData(formValue_steps)} disabled={connectionStatus === false}>
+                                Upload data
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <Grid container justify="center">
+                        <Typography> Status: {status.message}</Typography>
+                    </Grid>
+                </Paper>
+            </Grid>
+        </Grid>
+    </Grid>
 }
 
 export { StepcounterView };
