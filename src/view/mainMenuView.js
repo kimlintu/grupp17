@@ -19,6 +19,13 @@ const MainMenuView = ({getUserName, userName}) => {
     }}>
       print autheticationinfo in console
     </button>
+    <button onClick={async () =>{
+      const resp1 = await apiGetRequest({resource: 'db/delete'});
+      const data = await resp1.json();
+      console.log(data.ok);
+    }}>
+      test db delete
+    </button>
   </div>
 };
 
