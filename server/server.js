@@ -84,7 +84,7 @@ app.get('/steps', (request, response) => {
         response.json(data.steps);
     })
 });
-
+//Delete a document with current users id
 app.get('/db/delete', (request, response) =>{
     try{
         cloudant.use(current_database).get(request.user.identities[0]['id']).then((data) => {
