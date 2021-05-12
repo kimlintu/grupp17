@@ -80,12 +80,23 @@ app.get('/api/user', (request, response) =>{
 });
 
 app.get('/steps', (request, response) => {
-    console.log("steps");
     cloudant.use(current_database).get(request.user.identities[0]['id']).then((data) => {
         response.json(data.steps);
-        console.log("got data: ", data.steps);
     })
 });
+
+app.get('/db/delete', (request, response) =>{
+    try{
+        cloudant.use(current_database).get(request.user.identities[0]['id']).then((data) => {
+            cloudant.use(current_database).destroy(request.user.identities[0]['id'], data._rev).then((data2) => {
+                response.json(data2);
+            })
+        })
+    }catch(error){
+        response.sendStatus(error.status);
+    }
+    
+})
 
 app.get('/step-counters/get', async (request, response) => {
     try {
@@ -112,7 +123,6 @@ app.post('/step-counters/add', async (request, response) => {
 });
 
 app.post('/steps/add', (request, response) => {
-    console.log("steps to be written: ", request.body.numberOfSteps);
     cloudant.use(current_database).get(request.user.identities[0]['id']).then((data) =>{
         const doc = data;
         cloudant.use(current_database).insert({_rev: doc._rev,
