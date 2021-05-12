@@ -5,9 +5,6 @@ const StepsView = ({getSteps, steps, postSteps, status}) => {
     const match = useRouteMatch(); {/* match contains info about current <Route>,
     i.e. "/login". It can be used to perform relative routing (see below). */}
     const [uploadSteps, setUploadSteps] = useState('');
-    console.log("STEPSTATE IN VIEW: ", steps);
-    console.log("steps to send: ", uploadSteps);
-    console.log("STATUS: ", status);
     return <div style={{
       backgroundColor: 'lightgreen',
     }}>
