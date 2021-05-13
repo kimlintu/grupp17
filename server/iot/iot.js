@@ -83,11 +83,11 @@ async function connectHubToDB() {
   const connectorId = connectorInfo.data.id;
   console.log('info ', connectorInfo)
 
-  const destinationInfo = await createConnectorDestination(type, 'step_counter_data', connectorId, 'DAY');
+  const destinationInfo = await createConnectorDestination(type, 'steps_data', connectorId, 'DAY');
   const destinationName = destinationInfo.data.name;
   console.log('info ', destinationInfo)
 
-  const rule = await createForwardingRule('dest rule', destinationName, connectorId, 'step-counter', 'Step-data');
+  const rule = await createForwardingRule('dest rule', destinationName, connectorId, 'step-counter-type', 'stepevt');
   console.log('info ', rule)
 
 }
