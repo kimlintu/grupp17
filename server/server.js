@@ -74,6 +74,14 @@ app.get('/steps', (request, response) => {
     })
 });
 
+app.post('/steps/add', (request, response) => {
+    console.log("steps to be written: ", request.body.numberOfSteps);
+    cloudant.use(current_database).get(user).then((data) =>{
+        const doc = data;
+        cloudant.use(current_database).insert({_rev: doc._rev, steps: request.body.numberOfSteps}, user);
+    })
+});
+
 app.get('/step-counters/get', async (request, response) => {
     try {
         const deviceList = await getDeviceList({ user: { name: 'test-user' }});
@@ -97,14 +105,6 @@ app.post('/step-counters/add', async (request, response) => {
         response.sendStatus(error.status)
     }
 });
-
-app.post('/steps/add', (request, response) => {
-    console.log("steps to be written: ", request.body.numberOfSteps);
-    cloudant.use(current_database).get(user).then((data) =>{
-        const doc = data;
-        cloudant.use(current_database).insert({_rev: doc._rev, steps: request.body.numberOfSteps}, user);
-    })
-})
 
 /* Environment for Cloud Foundry app (watchyoursteps). Contains things such as 
    application port, connected services etc., for the website. */
