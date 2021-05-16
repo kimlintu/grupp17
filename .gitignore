@@ -30,5 +30,3 @@ vcap-local.json
 .env
 
 /extra_info
-
-steps_schema.json

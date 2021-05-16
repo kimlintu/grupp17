@@ -1,8 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import {apiGetRequest} from '../api/serverApi';
-const MainMenuView = ({getUserName, userName}) => {
-  getUserName(); //get logged in users name, if there is any
+
+const MainMenuView = () => {
   return <div>
     <Typography paragraph>
       KIMPOSSIBLE
@@ -10,22 +9,8 @@ const MainMenuView = ({getUserName, userName}) => {
       KIMPOSSIBLE
     </Typography>
     <Typography paragraph>
-      Hello {userName} ! Enjoy your stay...
+      KIMPOSSIBLE KIMPOSSIBLE KIMPOSSIBLE KIMPOSSIBLE KIMPOSSIBLE KIMPOSSIBLE KIMPOSSIBLE
     </Typography>
-    <button onClick={async () => {
-      const resp = await apiGetRequest({resource: 'api/user'});
-      const data = await resp.json();
-      console.log(data);
-    }}>
-      print autheticationinfo in console
-    </button>
-    <button onClick={async () =>{
-      const resp1 = await apiGetRequest({resource: 'db/delete'});
-      const data = await resp1.json();
-      console.log(data.ok);
-    }}>
-      test db delete
-    </button>
   </div>
 };
 
