@@ -63,7 +63,7 @@ const servePath = path.join(__dirname, '../build');
 const current_database = 'kimpossible_test'; //current database
 //const user = 'kim'; //current user
 const { addDevice, getDeviceList } = require('./iot/iot')
-
+/*
 app.get('/', async (request, response) => {
     try{
         const checkDb = await cloudant.use(current_database).get(request.user.identities[0]['id']);
