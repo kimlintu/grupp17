@@ -59,7 +59,7 @@ app.get('/', async (request, response) => {
         const checkDb = await cloudant.use(current_database).get(request.user.identities[0]['id']);
         //console.log(checkDb);
         } catch (e){
-            const create = await cloudant.use(current_database).insert({steps: 0}, 
+            const create = await cloudant.use(current_database).insert({steps: 0, device_id: ''}, 
                 request.user.identities[0]['id']);
             //console.error(e);
         }
