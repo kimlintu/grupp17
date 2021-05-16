@@ -7,6 +7,7 @@
  ********************************************************************************/
 
 const { iotApiAddDevice, iotApiGetDeviceList } = require('./iotApi')
+const { addDeviceIdToUser } = require('../db/db_functions')
 
 /**
  * Registers the device at the IBM Watson IoT service and and saves it under the user
@@ -31,13 +32,13 @@ async function addDevice({ user, deviceName, deviceInformation, deviceAuthToken 
 
     // We use the "deviceClass" later parameter to identify which device belongs to which user. 
     device["deviceInfo"] = (deviceInformation ? deviceInformation : {});
-    device["deviceInfo"]["deviceClass"] = user.name;
 
     // First we try to add the device to the IoT hub.
     const addedDevice = await iotApiAddDevice({ device });
 
     if (addedDevice.data) {
-      // TODO: Link the device to the user in the database.
+      // Link the device to the user in the database.
+      await addDeviceIdToUser({ user, deviceId: deviceName });
 
       return addedDevice.data;
     }

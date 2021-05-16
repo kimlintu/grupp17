@@ -37,11 +37,23 @@ async function apiPostRequest({ resource, data }) {
  * @param {string} resource The resource where the data should be sent, for example, '/steps'.
  * @returns {object} The server response
  */
-async function apiGetRequest({ resource }) {
+async function apiGetRequest({ resource, parameters }) {
   try {
-    const server_response = await fetch(`${serverUrl}/${resource}`, {
+    let resourceString = `${serverUrl}/${resource}`;
+
+    if (parameters) {
+      let paramString = "?";
+      parameters.forEach(parameter => {
+        paramString += `${parameter.key}=${parameter.value}&`;
+      });
+
+      resourceString += `/${paramString}`;
+    }
+
+    const server_response = await fetch(resourceString, {
       method: 'GET'
     });
+
     if (server_response.status === 200) {
       return server_response;
     } else {
