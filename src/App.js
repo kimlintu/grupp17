@@ -4,12 +4,14 @@ import {
   Route
 } from 'react-router-dom';
 
+import { MainMenu } from './presenter/mainMenu'
 import { MainMenuView } from './view/mainMenuView'
 import { RegisterView } from './view/registerView'
 import { Steps } from './presenter/steps'
 import { Account } from './presenter/account'
 import { Devices } from './presenter/devices/devices'
 import { PermanentDrawerLeft } from './view/drawerView'
+
 
 
 
@@ -37,7 +39,7 @@ function App() {
         </Route>
         <Route path="/">
           <PermanentDrawerLeft>
-            <MainMenuView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+            <MainMenu /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
           </PermanentDrawerLeft>
         </Route>
       </Switch>
