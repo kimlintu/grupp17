@@ -95,12 +95,12 @@ function PermanentDrawerLeft(props) {
         </List>
         <Divider />
         <List>
-          <Link to="/login">
-            <ListItem button key={"Logout"}>
+          <Link to="/account">
+            <ListItem button key={"account"}>
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>
-              <ListItemText primary={"Logout"} />
+              <ListItemText primary={"account"} />
             </ListItem>
           </Link>
         </List>

@@ -1,6 +1,8 @@
 import { Link, useRouteMatch } from 'react-router-dom';
+import {useState} from 'react';
 
-const LoginView = () => {
+
+const AccountView = ({getLogin, name, getLogout}) => {
   const match = useRouteMatch(); {/* match contains info about current <Route>,
   i.e. "/login". It can be used to perform relative routing (see below). */}
 
@@ -11,20 +13,17 @@ const LoginView = () => {
       <h1>Watch Your Steps!</h1>
     </div>
     <h2>@/login</h2>
-
-    { <Link to="/">
-      <button>
-        Login
+      <button onClick={() => getLogin()}>
+          Login
       </button>
-    </Link>} 
-    <Link to="/register">
-      <button>
-        Register
+      {name}
+      <button onClick={() => getLogout()}>
+          Logout
       </button>
-    </Link>
 
   </div>
 
 };
 
-export { LoginView };
+export { AccountView };
+

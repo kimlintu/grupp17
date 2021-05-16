@@ -16,7 +16,7 @@ const StepsView = ({getSteps, steps, postSteps, status}) => {
       </div>
       <h2>@/steps</h2>
   
-      { <Link to="/">
+      { <Link to="/account">
         <button>
           Login
         </button>
