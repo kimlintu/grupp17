@@ -1,28 +1,35 @@
 import React from 'react';
 import { StepcounterView } from '../view/stepcounterView';
-import { ModelContext } from '../context'; 
+import { ModelContext, DeviceContext } from '../context';
 
 function Stepcounter() {
-    
+
     const model = React.useContext(ModelContext);
-    //  const [currentToken, setCurrentToken] = React.useState("");
+    const device = React.useContext(DeviceContext);
+
     const [device_connected, setConnectionStatus] = React.useState(false);
     const [status, setStatus] = React.useState('');
-    //  const [ready, setReady] = React.useState("false");
-    //   const [tokenStatus, settokenStatus ] = React.useState(0);
+    const [count, setCount] = React.useState(0);
+    
+    console.log('status: ', device_connected)
 
     React.useEffect(() => {
-        // model.setToken(currentToken);
-        // model.setUpConnection();
-        const obs = model.addObserver(() => setConnectionStatus(model["device_is_connected"]));
-        console.log(device_connected);
-        // setReady(true);
+        const obs = model.addObserver(() => {
+            setConnectionStatus(model["device_is_connected"]) 
 
+            if(model["device_is_connected"])
+                setStatus({ status: 'ok', message: 'Connected!' })
+            else
+                setStatus({ status: 'error', message: 'check inlogg' })
+        });
+
+        console.log("from presenter " + device_connected);
+        setCount(count + 1);
+        console.log("Count " + count);
+     
         return () => model.removeObserver(obs);
-    }, [model, device_connected]);
+    }, [model.active_device, device_connected]);
 
-    //    console.log("mod: " + model.getToken());
-    //    console.log("curr: " + currentToken);
 
     return React.createElement(StepcounterView, {
         submitLocally: (id, token) => {
@@ -35,7 +42,7 @@ function Stepcounter() {
         },
         uploadData: (steps) => {
             if (steps <= 0) {
-                setStatus({ status: 'error', message: 'Steps cannot be negative' });
+                setStatus({ status: 'error', message: 'Steps cannot be 0 or negative' });
             } else if (!isNaN(steps)) {
                 try {
                     model.setSteps(steps)
@@ -50,8 +57,10 @@ function Stepcounter() {
         },
         connect: () => {
             try {
-                model.setUpConnection();
-                setConnectionStatus(model.is_connected());
+                console.log("before con-setup " + device_connected);
+                model.setUpConnection()
+                //setConnectionStatus();
+                console.log("after con-setup " + device_connected);
                 setStatus({ status: 'ok', message: 'Device now connected' });
 
             } catch (error) {
@@ -64,7 +73,7 @@ function Stepcounter() {
                 setConnectionStatus(model.is_connected());
                 setStatus({ status: 'ok', message: 'Device now disconnected' });
             } catch (error) {
-                setStatus({ status: 'ok', message: error });
+                setStatus({ status: 'error', message: error });
 
             }
         },
