@@ -1,5 +1,6 @@
 var IoTDevice = require('./device.js');
 
+/* This class stores the credentials of the stepcounter and contains some logic */
 class Model {
     constructor() {
         this.id = null;
@@ -10,7 +11,7 @@ class Model {
         this.device_is_connected = false;
     }
 
-    /* Sets the parameters for the stepcounter */
+    /* Sets the parameters for the device */
     setParameters(id, token) {
         this.setID(id);
         this.setToken(token);
@@ -24,11 +25,11 @@ class Model {
     /* Sets the steps-value that will be uploaded */
     setSteps(value) {
         this.steps = value;
+        localStorage.setItem('step-data', this.steps);
     }
 
     /* Sets the token of the device */
     setToken(value) {
-        //    this.notifyObservers();
         this.token = value;
     }
 
@@ -48,25 +49,19 @@ class Model {
         return (this.id !== null && this.token !== null);
     }
 
-    /* Connects device to the IBM-watson-plattform */
+    /* Connects device to the IBM-watson platform */
     setUpConnection() {
         if (this.parametersIsSet()) {
             try {
                 this.active_device.SetupDevice(this.token, this.id);
-                //this.active_device.betaConnection();
-                // this.device_is_connected = this.is_connected();
-                console.log("mod checks dev-status: " + this.device_is_connected);
-
                 this.active_device.on('errormessage', () => {
                     this.device_is_connected = false;
                     this.notifyObservers();
                 })
-
                 this.active_device.on('connect', () => {
                     this.device_is_connected = true;
                     this.notifyObservers();
                 })
-
                 this.active_device('disconnect', () => {
                     this.device_is_connected = false;
                     this.notifyObservers();
@@ -79,36 +74,33 @@ class Model {
         }
     }
 
+    /* Uploads the data to the IBM-watson platform */
     uploadData() {
-        console.log("upload check status: " + this.device_is_connected);   
         if (this.device_is_connected === true) {
-            console.log("model: " + this.token);
             const [date, time] = this.getCurrentDateAndTime();
             try {
                 this.active_device.Push('Step-data', { date: date, time_sent: time, steps: this.steps });
-            } catch (e) {
-                console.log("error:\n");
-                console.log(e);
+            } catch (err) {
+                console.err(err);
+                throw err;
             }
         } else {
            throw "Device not connected";
         }
     }
 
+    /*  Disconnect the device from the IBM-watson platform  */
     disconnect() {
         this.active_device.Disconnect();
         this.active_device.TeardownDevice();
-        //  this.device_is_connected = false;
     }
 
+    /* Checks if the device is connected to the IBM-watson platform */
     is_connected() {
-       // return this.device_is_connected;
         if (this.active_device === null) {
-            console.log("null device -> false");
             return false;
         }
         else {
-            console.log("model from device: " + this.active_device.isConnected());
             return this.active_device.isConnected();
         } 
     }
