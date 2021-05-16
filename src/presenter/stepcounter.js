@@ -18,9 +18,9 @@ function Stepcounter() {
             setConnectionStatus(model["device_is_connected"]) 
 
             if(model["device_is_connected"])
-                setStatus({ status: 'ok', message: 'Connected!' })
+                setStatus({ status: 'ok', message: 'Device connected!' })
             else
-                setStatus({ status: 'error', message: 'check inlogg' })
+                setStatus({ status: 'error', message: 'Check device credentials' })
         });
 
         console.log("from presenter " + device_connected);
@@ -55,16 +55,20 @@ function Stepcounter() {
                 setStatus({ status: 'error', message: 'Enter a valid number' });
             }
         },
-        connect: () => {
-            try {
-                console.log("before con-setup " + device_connected);
-                model.setUpConnection()
-                //setConnectionStatus();
-                console.log("after con-setup " + device_connected);
-                setStatus({ status: 'ok', message: 'Device now connected' });
-
-            } catch (error) {
-                setStatus({ status: 'error', message: error });
+        connect: (id, token) => {
+            if (id !== "" && token !== "") {
+                model.setParameters(id, token);
+               // setStatus({ status: 'ok', message: 'Local state set' })
+                try {
+                    console.log("before con-setup " + device_connected);
+                    model.setUpConnection()
+                    console.log("after con-setup " + device_connected);
+                    setStatus({ status: 'ok', message: 'Device now connected' });
+                } catch (error) {
+                    setStatus({ status: 'error', message: error });
+                }
+            } else {
+                setStatus({ status: 'error', message: 'ID or token cannot be empty' });
             }
         },
         disconnect: () => {

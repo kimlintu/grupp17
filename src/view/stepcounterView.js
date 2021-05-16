@@ -17,14 +17,14 @@ function StepcounterView({ uploadData, submitLocally, tokenStatus, connect, disc
                     <Grid style={{ "margin": 5 }}>
                         <Grid container justify="center">
                             <form>
-                                <TextField id="outlined-basic" label="Device id" onChange={(e) => setFormValue_id(e.target.value)} variant="outlined" />
+                                <TextField id="outlined-basic" disabled={connectionStatus ? true : false} label="Device id" onChange={(e) => setFormValue_id(e.target.value)} variant="outlined" />
                             </form>
                         </Grid>
                     </Grid>
                     <Grid style={{ "margin": 5 }}>
                         <Grid container justify="center">
                             <form>
-                                <TextField id="outlined-basic" label="Device token" onChange={(e) => setFormValue_token(e.target.value)} variant="outlined" />
+                                <TextField id="outlined-basic" disabled={connectionStatus ? true : false} label="Device token" onChange={(e) => setFormValue_token(e.target.value)} variant="outlined" />
                             </form>
                         </Grid>
                     </Grid>
@@ -35,14 +35,19 @@ function StepcounterView({ uploadData, submitLocally, tokenStatus, connect, disc
                             </form>
                         </Grid>) : ""}
                     </Grid>
-                    <Grid container justify="center" style={{ "margin": 2 }} >
+                    {
+                    /*
+
+                        <Grid container justify="center" style={{ "margin": 2 }} >
                         <Grid style={{ "margin": 2 }}>
                             <Button variant="contained" color="primary" onClick={() => submitLocally(formValue_id, formValue_token)}>Set Local State</Button>
                         </Grid>
                     </Grid>
+                    */
+                    }
                     <Grid container justify="center" alignItems="flex-end">
                         <Grid style={{ "margin": 2 }}>
-                            <Button variant="contained" color="primary" onClick={connectionStatus ? () => disconnect() : () => connect()} >
+                            <Button variant="contained" color="primary" onClick={connectionStatus ? () => disconnect() : () => connect(formValue_id, formValue_token)} >
                                 {connectionStatus ? "Disconnect" : "Connect"}
                             </Button>
                         </Grid>
