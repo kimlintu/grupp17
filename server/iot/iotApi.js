@@ -135,9 +135,10 @@ async function createForwardingRule(ruleName, destinationName, connectorId, devi
   const forwardingRule = {
     name: ruleName,
     destinationName,
-    type: 'state',
+    type: 'event',
     selector: {
-      "logicalInterfaceId": "609b9c3bbe1a5200096ddc6d"
+      deviceType,
+      eventId
     }
   };
 
