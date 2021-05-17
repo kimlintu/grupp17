@@ -78,7 +78,7 @@ function StatsView() {
         <Grid container justify="center">
           <Typography style={{ "fontSize": 50, "fontWeight": "bold" }}>Statistics: Steps</Typography>
           <Grid container justify="center" style={{ "padding": "40px" }}>
-            <Grid style={{ "border": "solid 4px", "borderRadius": "5px", "padding": "30px" }}>
+            <Grid style={{ "border": "solid 4px", "borderRadius": "5px", "padding": "30px", "backgroundColor": "#F9F4F5" }}>
               <BarChart
                 width={1000} height={500} data={data01}
                 margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
