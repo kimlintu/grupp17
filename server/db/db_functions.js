@@ -17,54 +17,63 @@ async function addDeviceIdToUser({ user, deviceId }) {
     }, user.id);
   })
 }
-
+const util = require('util')
 /*
 Get latest document with step information for current user
 @return the number of steps
 */
-async function getStepsForUser({ user, deviceId, start_date, stop_date }) {
+async function getStepsForUser({ deviceId, start_date, stop_date }) {
   // Calculate days in each month.
   let monthDays = [];
   let current_month = start_date.month;
-  while(current_month <= stop_date.month) {
+  while (current_month <= stop_date.month) {
     monthDays = [...monthDays, getDaysInMonth(start_date.year, current_month)];
-    
+
     current_month++;
   }
 
   let steps = [];
-  for(let year = start_date.year; year <= stop_date.year; year++) {
-    for(let month = start_date.month; month <= stop_date.month; month++) {
-      const max_day = (month == stop_date.month) ? stop_date.day : monthDays[month - start_date.month];
-      for(let day = start_date.day; day <= max_day; day++) {
-        const databaseName = `iotp_udbne1_steps_data_${year}-${month}-${day}`;
-        console.log('NAMMEE: ', databaseName)
-        
-        cloudant.use(databaseName).find(stepsQuery(deviceId)).then((data) => {
-            steps = [...steps, data];
+  return new Promise(async (resolve, reject) => {
+    for (let year = start_date.year; year <= stop_date.year; year++) {
+      for (let month = start_date.month; month <= stop_date.month; month++) {
+        const max_day = (month == stop_date.month) ? stop_date.day : monthDays[month - start_date.month];
+        for (let day = start_date.day; day <= max_day; day++) {
+          const databaseName = `iotp_udbne1_steps_data_${year}-${month}-${day}`;
 
-            console.log('steps: ', data)
+          const data = await cloudant.use(databaseName).find({
+            selector: {
+              deviceId: { "$eq": deviceId },
+              timestamp: { "$gt": 0 }
+            },
+            fields: ["deviceId", "data", "timestamp"],
+          })
+          const max_steps = data.docs.reduce((current_max, curr) => (curr.data.steps > current_max.data.steps) ? curr : current_max);
 
-            return steps;
-        })
+          steps = [...steps, max_steps];
+        }
       }
     }
-  }
-  
+
+    resolve(steps);
+  })
+}
+
+async function retrieveStepsFromDatabase({ user, deviceId, start_date, stop_date }) {
+
 }
 
 function getDaysInMonth(year, month) {
   return new Date(year, month, 0).getDate();
 }
 
-function stepsQuery({deviceId}){
-    const q = {
-        selector: {
-            deviceId: {"$eq": deviceId}
-        },
-        use_index: ["_design/iotp", "by-deviceId"]
-    };
-    return q;
+function stepsQuery({ deviceId }) {
+  const q = {
+    selector: {
+      deviceId: { "$eq": deviceId }
+    },
+    use_index: ["_design/iotp", "by-deviceId"]
+  };
+  return q;
 }
 
 exports.addDeviceIdToUser = addDeviceIdToUser;

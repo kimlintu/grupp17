@@ -40,8 +40,6 @@ app.get('/appid/callback', passport.authenticate(WebAppStrategy.STRATEGY_NAME));
 
 app.use(passport.authenticate(WebAppStrategy.STRATEGY_NAME));
 
-//app.use(express.static('./public'));
-
 
 const path = require('path');
 const cfenv = require('cfenv'); // Cloud Foundry environment (port, ip etc.)
@@ -164,11 +162,7 @@ app.get('/steps/get', async (request, response) => {
         day: stop_date_day
     }
 
-    console.log('id: ', deviceId),
-    console.log('starT: ', start_date)
-    console.log('stop: ', stop_date)
-
-    const stepsData = await getStepsForUser({ user: null, deviceId: deviceId, start_date, stop_date });
+    const stepsData = await getStepsForUser({ deviceId: deviceId, start_date, stop_date });
 
     console.log('\n\nSTEPSDATA, ', stepsData);
 })

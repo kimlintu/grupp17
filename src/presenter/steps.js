@@ -28,7 +28,7 @@ function Steps() {
                     { key: 'start_date_day', value: '16' },
                     { key: 'stop_date_year', value: '2021' },
                     { key: 'stop_date_month', value: '05' },
-                    { key: 'stop_date_day', value: '16' },
+                    { key: 'stop_date_day', value: '17' },
                     { key: 'deviceId', value: 'steppy' }
                 ]
             });
