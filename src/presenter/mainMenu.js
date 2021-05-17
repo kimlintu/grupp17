@@ -1,25 +1,25 @@
-import {createElement, useState} from 'react';
-import {apiGetRequest} from '../api/serverApi';
+import { createElement, useState } from 'react';
+import { apiGetRequest } from '../api/serverApi';
 import { MainMenuView } from '../view/mainMenuView';
 
-function MainMenu(){
+function MainMenu() {
     const [userName, setUserName] = useState('');
     return createElement(MainMenuView, {
         getUserName: async () => {
-            try{
-                const resp = await apiGetRequest({resource: 'api/user'});
+            try {
+                const resp = await apiGetRequest({ resource: 'api/user' });
                 const data = await resp.json();
-                if(data.name === ""){
+                if (data.name === "") {
                     setUserName("anonymous")
-                }else{
+                } else {
                     setUserName(data.name);
                 }
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
-        }, 
+        },
         userName
     })
 };
 
-export {MainMenu};
+export { MainMenu };

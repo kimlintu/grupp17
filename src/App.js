@@ -36,9 +36,9 @@ function App() {
           <RegisterView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
         </Route>
         <Route path="/devices">
-          <PermanentDrawerLeft>
+          <Drawer>
             <Devices />
-          </PermanentDrawerLeft>
+          </Drawer>
         </Route>
         <Route path="/">
           <Drawer>
