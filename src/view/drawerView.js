@@ -40,9 +40,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PermanentDrawerLeft({props, getUser, user}) {
+function PermanentDrawerLeft({ props }) {
   const classes = useStyles();
-  getUser();
 
   return (
     <div className={classes.root}>
@@ -63,39 +62,41 @@ function PermanentDrawerLeft({props, getUser, user}) {
         anchor="left"
       >
         <div className={classes.toolbar} />
-        {user && (<>
-        <Divider />
-        <List>
-          <Link to="/steps">
-            <ListItem button key={"Add steps"}>
+        {(window.loggedIn === true) && (<>
+          <Divider />
+          <List>
+            <Link to="/steps">
+              <ListItem button key={"Add steps"}>
+                <ListItemIcon>
+                  <AddIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Add steps"} />
+              </ListItem>
+            </Link>
+            <ListItem button key={"Add friend"}>
               <ListItemIcon>
                 <AddIcon />
               </ListItemIcon>
-              <ListItemText primary={"Add steps"} />
+              <ListItemText primary={"Add friend"} />
             </ListItem>
-          </Link>
-          <ListItem button key={"Add friend"}>
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Add friend"} />
-          </ListItem>
-          <Link to="/devices">
-            <ListItem button key={"Sync stepcounter"}>
-              <ListItemIcon>
-                <SyncIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Sync stepcounter"} />
-            </ListItem>
-          </Link>
-          <ListItem button key={"Show stats"}>
-            <ListItemIcon>
-              <EqualizerIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Show stats"} />
-          </ListItem>
-        </List>
-        <Divider />
+            <Link to="/devices">
+              <ListItem button key={"Sync stepcounter"}>
+                <ListItemIcon>
+                  <SyncIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Sync stepcounter"} />
+              </ListItem>
+            </Link>
+            <Link to="/stats/steps">
+              <ListItem button key={"Show stats"}>
+                <ListItemIcon>
+                  <EqualizerIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Show stats"} />
+              </ListItem>
+            </Link>
+          </List>
+          <Divider />
         </>)}
         <List>
           <Link to="/account">
