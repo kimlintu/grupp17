@@ -1,4 +1,6 @@
-var IoTDevice = require('./device.js');
+//const { IoTDevice } = require('./device.js');
+
+import { Device as IoTDevice } from './device.js';
 
 /* This class stores the credentials of the stepcounter and contains some logic */
 class Model {

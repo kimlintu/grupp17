@@ -126,4 +126,5 @@ class Device extends EventEmitter {
   }
 }
 
-module.exports = Device;
+export { Device };
+//module.exports = Device;
