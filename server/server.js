@@ -84,7 +84,10 @@ app.use(express.json());
 
 
 app.get('/api/user', (request, response) => {
-    response.json(request.user);
+    if(request.user)
+        response.json(request.user);
+    else
+        response.json({ name: null });
 });
 
 app.get('/steps', (request, response) => {
