@@ -3,10 +3,11 @@ import { PermanentDrawerLeft } from "../view/drawerView";
 import {apiGetRequest} from '../api/serverApi';
 
 
-function Drawer(){
+function Drawer(props){
     const [user, getUser] = useState('');
 
     return createElement(PermanentDrawerLeft, {
+        props,
         getUser: async () => {
             try{
                 const resp = await apiGetRequest({resource: 'api/user'});

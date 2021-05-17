@@ -4,6 +4,9 @@ import {apiGetRequest} from '../api/serverApi';
 const MainMenuView = ({getUserName, userName}) => {
   getUserName(); //get logged in users name, if there is any
   return <div>
+
+    {userName && (
+    <>
     <Typography paragraph>
       KIMPOSSIBLE
       KIMPOSSIBLE
@@ -26,6 +29,14 @@ const MainMenuView = ({getUserName, userName}) => {
     }}>
       test db delete
     </button>
+    </>)}
+    {!userName && (
+    <>
+    <Typography paragraph>
+        Welcome to watch your step, please go to account to login
+    </Typography>
+    </>
+    )}
   </div>
 };
 

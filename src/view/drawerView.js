@@ -40,8 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PermanentDrawerLeft(props,getUser,user) {
+function PermanentDrawerLeft({props, getUser, user}) {
   const classes = useStyles();
+  getUser();
 
   return (
     <div className={classes.root}>
@@ -62,6 +63,7 @@ function PermanentDrawerLeft(props,getUser,user) {
         anchor="left"
       >
         <div className={classes.toolbar} />
+        {user && (<>
         <Divider />
         <List>
           <Link to="/steps">
@@ -94,6 +96,7 @@ function PermanentDrawerLeft(props,getUser,user) {
           </ListItem>
         </List>
         <Divider />
+        </>)}
         <List>
           <Link to="/account">
             <ListItem button key={"account"}>

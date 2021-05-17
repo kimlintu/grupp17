@@ -25,7 +25,9 @@ function App() {
             The "/" path always matches so it needs to be the last <Route>. */}
       <Switch>
         <Route path="/account">
+          <Drawer>
           <Account /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+          </Drawer>
         </Route>
         <Route path="/steps">
           <Steps />
