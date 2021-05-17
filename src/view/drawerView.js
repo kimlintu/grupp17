@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PermanentDrawerLeft(props) {
+function PermanentDrawerLeft(props,getUser,user) {
   const classes = useStyles();
 
   return (

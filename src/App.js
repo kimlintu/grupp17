@@ -10,6 +10,7 @@ import { RegisterView } from './view/registerView'
 import { Steps } from './presenter/steps'
 import { Account } from './presenter/account'
 import { Devices } from './presenter/devices/devices'
+import { Drawer } from './presenter/drawer'
 import { PermanentDrawerLeft } from './view/drawerView'
 
 
@@ -38,9 +39,9 @@ function App() {
           </PermanentDrawerLeft>
         </Route>
         <Route path="/">
-          <PermanentDrawerLeft>
+          <Drawer>
             <MainMenu /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
-          </PermanentDrawerLeft>
+          </Drawer>
         </Route>
       </Switch>
     </Router>

@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 
 
 
-const AccountView = ({getLogin, name, getName, getLogout}) => {
+const AccountView = ({getLogin, name, getName, getLogout,getDetails}) => {
   getName(); //get logged in users name, if there is any
   console.log(name)
   const bool = true;
@@ -27,6 +27,9 @@ const AccountView = ({getLogin, name, getName, getLogout}) => {
             </Typography>
       <button onClick={() => getLogout()}>
           Logout
+      </button>
+      <button onClick={() => getDetails()}>
+          Change Details
       </button>
       </>
       )}

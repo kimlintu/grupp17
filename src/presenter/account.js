@@ -23,8 +23,11 @@ function Account(){
         name,
         getLogout: async () => {
             window.location = window.location.href+"/logout";
-
-        }});
+        },
+        getDetails: async () => {
+            window.location = window.location.href+"/change_details";
+        }
+        });
 };
 
 export { Account };

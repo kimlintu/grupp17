@@ -4,11 +4,8 @@ const express = require('express');
 const session = require('express-session')
 const passport = require('passport');
 const WebAppStrategy = require("ibmcloud-appid").WebAppStrategy;
-const cors = require('cors');
 
 const app = express();
-
-app.use(cors())
 
 app.use(session({
     secret: "123456",
@@ -33,7 +30,7 @@ passport.use(new WebAppStrategy({
     }))
 
 
-app.get('/account/login', cors(), passport.authenticate(WebAppStrategy.STRATEGY_NAME,{
+app.get('/account/login', passport.authenticate(WebAppStrategy.STRATEGY_NAME,{
     successRedirect: '/',
     forceLogin: true
 }));
@@ -46,7 +43,10 @@ app.get('/account/logout', function(req,res){
     res.redirect('/');
 })
 
-
+app.get("/account/change_details", passport.authenticate(WebAppStrategy.STRATEGY_NAME,{
+    successRedirect: '/',
+    show: WebAppStrategy.CHANGE_DETAILS
+}))
 
 //app.use(passport.authenticate(WebAppStrategy.STRATEGY_NAME));
 
