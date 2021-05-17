@@ -1,23 +1,12 @@
 import { createElement, useState } from "react";
 import { PermanentDrawerLeft } from "../view/drawerView";
-import {apiGetRequest} from '../api/serverApi';
+import { apiGetRequest } from '../api/serverApi';
 
 
-function Drawer(props){
-    const [user, getUser] = useState('');
-
+function Drawer(props) {
     return createElement(PermanentDrawerLeft, {
-        props,
-        getUser: async () => {
-            try{
-                const resp = await apiGetRequest({resource: 'api/user'});
-                const data = await resp.json();
-                getUser(data.name);
-            }catch(error){
-                console.log(error);
-            }
-        },
-        user});
+        props
+    });
 };
 
 export { Drawer };
