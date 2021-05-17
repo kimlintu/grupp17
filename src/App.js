@@ -6,10 +6,11 @@ import {
 
 import { MainMenu } from './presenter/mainMenu'
 import { MainMenuView } from './view/mainMenuView'
-import { LoginView } from './view/loginView'
 import { RegisterView } from './view/registerView'
 import { Steps } from './presenter/steps'
+import { Account } from './presenter/account'
 import { Devices } from './presenter/devices/devices'
+import { Drawer } from './presenter/drawer'
 import { PermanentDrawerLeft } from './view/drawerView'
 
 
@@ -23,8 +24,10 @@ function App() {
             renders the first one that matches the current URL. 
             The "/" path always matches so it needs to be the last <Route>. */}
       <Switch>
-        <Route path="/login">
-          <LoginView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+        <Route path="/account">
+          <Drawer>
+          <Account /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+          </Drawer>
         </Route>
         <Route path="/steps">
           <Steps />
@@ -38,9 +41,9 @@ function App() {
           </PermanentDrawerLeft>
         </Route>
         <Route path="/">
-          <PermanentDrawerLeft>
+          <Drawer>
             <MainMenu /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
-          </PermanentDrawerLeft>
+          </Drawer>
         </Route>
       </Switch>
     </Router>
