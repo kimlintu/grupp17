@@ -58,9 +58,6 @@ async function getStepsForUser({ deviceId, start_date, stop_date }) {
   })
 }
 
-async function retrieveStepsFromDatabase({ user, deviceId, start_date, stop_date }) {
-
-}
 
 function getDaysInMonth(year, month) {
   return new Date(year, month, 0).getDate();
