@@ -7,6 +7,8 @@ var Cloudant = require('@cloudant/cloudant');
 var url = process.env.cloudant_url;
 var username = process.env.cloudant_username;
 var apiKey = process.env.cloudant_apikey;
-var cloudant = Cloudant({ url:url, plugins: { iamauth: { iamApiKey: apiKey}} });
+var password = process.env.cloudant_password;
+var cloudant = Cloudant({ url: url, plugins: { iamauth: { iamApiKey: apiKey}} });
+
 
 exports.cloudant = cloudant;
