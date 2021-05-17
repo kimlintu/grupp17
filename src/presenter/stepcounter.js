@@ -10,6 +10,8 @@ function Stepcounter() {
     const [device_connected, setConnectionStatus] = React.useState(false);
     const [status, setStatus] = React.useState('');
     const [count, setCount] = React.useState(0);
+    const [dailySteps, setDailySteps] = React.useState(model.steps);
+
     
     console.log('status: ', device_connected)
 
@@ -40,12 +42,13 @@ function Stepcounter() {
                 setStatus({ status: 'error', message: 'ID or token cannot be empty' });
             }
         },
-        uploadData: (steps) => {
-            if (steps <= 0) {
+        uploadData: (newSteps) => {
+            if (newSteps <= 0) {
                 setStatus({ status: 'error', message: 'Steps cannot be 0 or negative' });
-            } else if (!isNaN(steps)) {
+            } else if (!isNaN(newSteps)) {
                 try {
-                    model.setSteps(steps)
+                    let steps = parseInt(newSteps);
+                    setDailySteps(model.setSteps(steps))
                     model.uploadData();
                     setStatus({ status: 'ok', message: 'Data uploaded' })
                 } catch (error) {
@@ -82,8 +85,23 @@ function Stepcounter() {
             }
         },
         connectionStatus: device_connected,
-        status
-
+        status,
+    /*     
+            testLocalStorage: (newSteps) => { 
+            let steps = parseInt(newSteps);
+            if (newSteps === "" || isNaN(steps) || steps <= 0) {
+              setStatus({ status: 'ok', message: 'Enter valid number for steps' })
+            } else{
+                setDailySteps(model.checkLocalStorage(steps));        
+                setStatus({ status: 'ok', message: 'LocalStorage set'});
+            }
+        }, 
+    */
+        dailySteps: dailySteps,
+        clear: () => {
+            setDailySteps(model.clearLocalStorage());
+            setStatus({ status: 'ok', message: 'LocalStorage cleared'});
+        }
         //  tokenStatus: tokenStatus
     });
 };
