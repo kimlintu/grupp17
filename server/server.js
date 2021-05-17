@@ -99,6 +99,14 @@ app.get('/db/delete', (request, response) => {
 
 })
 
+app.post('/steps/add', (request, response) => {
+    console.log("steps to be written: ", request.body.numberOfSteps);
+    cloudant.use(current_database).get(user).then((data) =>{
+        const doc = data;
+        cloudant.use(current_database).insert({_rev: doc._rev, steps: request.body.numberOfSteps}, user);
+    })
+});
+
 app.get('/step-counters/get', async (request, response) => {
     try {
         const deviceList = await getDeviceList({ user: { name: 'test-user' } });
