@@ -13,9 +13,6 @@ import { Devices } from './presenter/devices/devices'
 import { PermanentDrawerLeft } from './view/drawerView'
 import { Stepcounter } from './presenter/stepcounter';
 
-
-
-
 function App() {
   return (
     <Router>
