@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 
 function PermanentDrawerLeft({ props }) {
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -62,7 +61,7 @@ function PermanentDrawerLeft({ props }) {
         anchor="left"
       >
         <div className={classes.toolbar} />
-        {(window.loggedIn === true) && (<>
+        {(props.userLoggedIn === true) && (<>
           <Divider />
           <List>
             <Link to="/steps">

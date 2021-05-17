@@ -8,9 +8,11 @@ function RedirectWrapper(props) {
 
   // Try to retreive user info to check if the user is logged in. 
   useEffect(() => {
-    console.log('WINODW: ', window.loggedIn)
 
     if (!checkedUserStatus && !(window.loggedIn === true)) {
+      console.log('WINODW: ', window.loggedIn)
+
+
       getUserInfo().then((user) => {
         if (user.name) {
           setUpdateState(updateState + 1);
@@ -24,6 +26,7 @@ function RedirectWrapper(props) {
       })
     }
   }, [])
+  console.log('WINODW2: ', window.loggedIn)
 
 
   if (updateState === 0) {
@@ -31,7 +34,7 @@ function RedirectWrapper(props) {
     return createElement('div', {}, "LOADING PAGE")
   } else if ((window.loggedIn === true) || (window.location.pathname === '/account')) {
     // Give them requested page
-    return createElement('div', {}, props.children)
+    return createElement('div', {}, cloneElement(props.children, { userLoggedIn: window.loggedIn }))
   } else {
     // User not logged in, return account login page.
     window.location.pathname = '/account'
