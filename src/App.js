@@ -27,7 +27,9 @@ function App() {
           <LoginView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
         </Route>
         <Route path="/steps">
-          <Steps />
+          <PermanentDrawerLeft>
+            <Steps />
+          </PermanentDrawerLeft>
         </Route>
         <Route path="/register">
           <RegisterView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
