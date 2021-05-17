@@ -15,6 +15,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
 import SyncIcon from '@material-ui/icons/Sync';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
+import DevicesOtherIcon from '@material-ui/icons/DevicesOther';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -84,6 +85,14 @@ function PermanentDrawerLeft(props) {
                 <SyncIcon />
               </ListItemIcon>
               <ListItemText primary={"Sync stepcounter"} />
+            </ListItem>
+          </Link>
+          <Link to="/stepcounter">
+            <ListItem button key={"Stepcounter"}>
+              <ListItemIcon>
+                <DevicesOtherIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Stepcounter"} />
             </ListItem>
           </Link>
           <ListItem button key={"Show stats"}>

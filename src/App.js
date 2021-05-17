@@ -11,6 +11,7 @@ import { RegisterView } from './view/registerView'
 import { Steps } from './presenter/steps'
 import { Devices } from './presenter/devices/devices'
 import { PermanentDrawerLeft } from './view/drawerView'
+import { Stepcounter } from './presenter/stepcounter';
 
 
 
@@ -35,6 +36,11 @@ function App() {
         <Route path="/devices">
           <PermanentDrawerLeft>
             <Devices />
+          </PermanentDrawerLeft>
+        </Route>
+        <Route path="/stepcounter">
+          <PermanentDrawerLeft>
+            <Stepcounter />
           </PermanentDrawerLeft>
         </Route>
         <Route path="/">
