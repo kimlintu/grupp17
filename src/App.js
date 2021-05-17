@@ -5,14 +5,13 @@ import {
 } from 'react-router-dom';
 
 import { MainMenu } from './presenter/mainMenu'
-import { MainMenuView } from './view/mainMenuView'
 import { RegisterView } from './view/registerView'
 import { Steps } from './presenter/steps'
 import { Account } from './presenter/account'
 import { Devices } from './presenter/devices/devices'
 import { Drawer } from './presenter/drawer'
-import { PermanentDrawerLeft } from './view/drawerView'
-
+import { StatsView } from './view/statsView'
+import { RedirectWrapper } from './redirect'
 
 
 
@@ -25,25 +24,37 @@ function App() {
             The "/" path always matches so it needs to be the last <Route>. */}
       <Switch>
         <Route path="/account">
-          <Drawer>
-          <Account /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
-          </Drawer>
+          <RedirectWrapper>
+            <Drawer>
+              <Account />
+            </Drawer>
+          </RedirectWrapper>
+        </Route>
+        <Route path="/stats/steps">
+          <RedirectWrapper>
+            <Drawer>
+              <StatsView />
+            </Drawer>
+          </RedirectWrapper>
         </Route>
         <Route path="/steps">
-          <Steps />
-        </Route>
-        <Route path="/register">
-          <RegisterView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+          <RedirectWrapper>
+            <Steps />
+          </RedirectWrapper>
         </Route>
         <Route path="/devices">
-          <Drawer>
-            <Devices />
-          </Drawer>
+          <RedirectWrapper>
+            <Drawer>
+              <Devices />
+            </Drawer>
+          </RedirectWrapper>
         </Route>
         <Route path="/">
-          <Drawer>
-            <MainMenu /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
-          </Drawer>
+          <RedirectWrapper>
+            <Drawer>
+              <MainMenu />
+            </Drawer>
+          </RedirectWrapper>
         </Route>
       </Switch>
     </Router>
