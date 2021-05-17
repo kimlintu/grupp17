@@ -63,6 +63,7 @@ const servePath = path.join(__dirname, '../build');
 const current_database = 'kimpossible_test'; //current database
 //const user = 'kim'; //current user
 const { addDevice, getDeviceList } = require('./iot/iot')
+const { getStepsForUser } = require('./db/db_functions')
 /*
 app.get('/', async (request, response) => {
     try{
@@ -120,7 +121,10 @@ app.get('/step-counters/get', async (request, response) => {
 
 app.post('/step-counters/add', async (request, response) => {
     try {
-        const addedDevice = await addDevice({ user: { name: 'test-user' }, deviceName: request.body.deviceName, deviceAuthToken: request.body.deviceToken });
+        const userId = request.user.identities[0]['id'];
+        const userName = request.user.name;
+
+        const addedDevice = await addDevice({ user: { id: userId, name: userName }, deviceName: request.body.deviceName, deviceAuthToken: request.body.deviceToken });
 
         const deviceInfo = {
             deviceToken: addedDevice.authToken
@@ -140,6 +144,35 @@ app.post('/steps/add', (request, response) => {
              name: request.user.name}, 
              request.user.identities[0]['id']);
     })
+})
+
+app.get('/steps/get', async (request, response) => {
+    // TODO: check that device ID is correct for current user
+
+    const start_date_year = request.query.start_date_year;
+    const start_date_month = request.query.start_date_month;
+    const start_date_day = request.query.start_date_day;
+    const stop_date_year = request.query.stop_date_year;
+    const stop_date_month = request.query.stop_date_month;
+    const stop_date_day = request.query.stop_date_day;
+
+    const deviceId = request.query.deviceId;
+
+    const start_date = {
+        year: start_date_year,
+        month: start_date_month,
+        day: start_date_day
+    }
+
+    const stop_date = {
+        year: stop_date_year,
+        month: stop_date_month,
+        day: stop_date_day
+    }
+
+    const stepsData = await getStepsForUser({ deviceId: deviceId, start_date, stop_date });
+
+    console.log('\n\nSTEPSDATA, ', stepsData);
 })
 
 /* Environment for Cloud Foundry app (watchyoursteps). Contains things such as 
