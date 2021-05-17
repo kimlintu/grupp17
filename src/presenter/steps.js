@@ -1,14 +1,36 @@
-import { createElement, useState } from "react";
+import React, { createElement, useState } from "react";
 import { StepsView } from "../view/stepsView";
 import { apiGetRequest, apiPostRequest } from "../api/serverApi";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 function Steps() {
     const [steps, setSteps] = useState('');
     const [status, setStatus] = useState('');
-    console.log("STEPSSTATE:", steps);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(null);
+    console.log("STARTDATE: ", startDate);
+    console.log("ENDDATE: ", endDate)
 
     return createElement(StepsView, {
+        datePick: () => {
+            const onChange = dates =>{
+                const [start, end] = dates;
+                setStartDate(start);
+                setEndDate(end);
+            };
+            return (
+                <DatePicker 
+                    format={"DD/MM/YYYY"}
+                    selected={startDate} 
+                    onChange={onChange} 
+                    startDate={startDate} 
+                    endDate={endDate} 
+                    selectsRange 
+                    inline />
+            );
+        }, 
         getSteps: async () => {
             try {
                 const db_response = await apiGetRequest({ resource: 'steps' });
@@ -48,5 +70,6 @@ function Steps() {
         }, status
     });
 };
+
 
 export { Steps };
