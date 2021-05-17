@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button, Grid, Typography, TextField, Paper } from '@material-ui/core';
 
-function StepcounterView({ uploadData, submitLocally, tokenStatus, connect, disconnect, connectionStatus, status }) {
+function StepcounterView({ uploadData, connect, disconnect, connectionStatus, status, clear, dailySteps, }) {
 
     const [formValue_id, setFormValue_id] = React.useState("");
     const [formValue_token, setFormValue_token] = React.useState("");
     const [formValue_steps, setFormValue_steps] = React.useState("");
-
+  
     return <Grid item>
         <Grid container justify="center">
             <Grid container justify="center">
@@ -36,14 +36,14 @@ function StepcounterView({ uploadData, submitLocally, tokenStatus, connect, disc
                         </Grid>) : ""}
                     </Grid>
                     {
-                    /*
-
-                        <Grid container justify="center" style={{ "margin": 2 }} >
-                        <Grid style={{ "margin": 2 }}>
-                            <Button variant="contained" color="primary" onClick={() => submitLocally(formValue_id, formValue_token)}>Set Local State</Button>
+                        /*
+    
+                            <Grid container justify="center" style={{ "margin": 2 }} >
+                            <Grid style={{ "margin": 2 }}>
+                                <Button variant="contained" color="primary" onClick={() => submitLocally(formValue_id, formValue_token)}>Set Local State</Button>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    */
+                        */
                     }
                     <Grid container justify="center" alignItems="flex-end">
                         <Grid style={{ "margin": 2 }}>
@@ -61,6 +61,13 @@ function StepcounterView({ uploadData, submitLocally, tokenStatus, connect, disc
                         <Typography> Status: {status.message}</Typography>
                     </Grid>
                 </Paper>
+                <Grid container justify="center">
+                    <Button variant="contained" color="secondary" onClick={() => clear()}>CLEAR local storage</Button>
+                    <Grid container justify="center">
+                        <Typography style={{ fontWeight: "bold" }}> Your uploaded steps today: {dailySteps} </Typography>
+
+                    </Grid>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
