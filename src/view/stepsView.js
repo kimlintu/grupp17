@@ -21,9 +21,6 @@ const StepsView = ({ datePick, getSteps, steps, postSteps, status, getStepsData 
         Login
         </button>
     </Link>}
-    <button onClick={() => getSteps()}>
-      test db call
-      </button>
       <button onClick={() => getStepsData()}>
       STEP DATA
       </button>
@@ -39,6 +36,10 @@ const StepsView = ({ datePick, getSteps, steps, postSteps, status, getStepsData 
     </Typography>
   
     {datePick()}
+    <button onClick={() => getSteps()}>
+      GET STEPS
+    </button>
+    
     
     
 
