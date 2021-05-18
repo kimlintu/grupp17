@@ -24,7 +24,7 @@ async function addDeviceIdToUser({ user, deviceId }) {
 async function deleteDeviceFromUser({ user }) {
   const userDoc = await cloudant.use(user_database).get(user.id);
   await cloudant.use(user_database).insert({
-    _rev: userDoc.rev,
+    _rev: userDoc._rev,
     steps: userDoc.steps,
     device_id: '', // empty string signifies no step counter added
     name: userDoc.name
