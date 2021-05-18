@@ -117,7 +117,15 @@ app.get('/step-counters/get', async (request, response) => {
             // First we need to check what devices that has been added by the user.
             const deviceId = await getUserDevices({ user: { id: userId } });
 
-            const deviceList = await getDeviceList({ deviceId });
+            let deviceList;
+            if (deviceId !== "") {
+                console.log('found!')
+                deviceList = await getDeviceList({ deviceId });
+            }
+            else {
+                console.log('NOT FOUND')
+                deviceList = { results: [] };
+            }
 
             response.json(deviceList);
         } catch (error) {
@@ -195,6 +203,8 @@ app.get('/steps/get', async (request, response) => {
     const stepsData = await getStepsForUser({ deviceId: deviceId, start_date, stop_date });
 
     console.log('\n\nSTEPSDATA, ', stepsData);
+
+    response.json({ stepsResult: stepsData });
 })
 
 /* Redirect any 404 to start page */

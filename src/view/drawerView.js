@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
+    height: 50,
     marginLeft: drawerWidth,
   },
   drawer: {

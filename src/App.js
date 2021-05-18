@@ -11,6 +11,7 @@ import { Devices } from './presenter/devices/devices'
 import { Stepcounter } from './presenter/stepcounter';
 import { Drawer } from './presenter/drawer'
 import { StatsView } from './view/statsView'
+import { Stats } from './presenter/stats'
 import { RedirectWrapper } from './redirect'
 
 
@@ -40,7 +41,7 @@ function App() {
         <Route path="/stats/steps">
           <RedirectWrapper>
             <Drawer>
-              <StatsView />
+              <Stats />
             </Drawer>
           </RedirectWrapper>
         </Route>
