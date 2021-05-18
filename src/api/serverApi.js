@@ -31,6 +31,7 @@ async function apiPostRequest({ resource, data }) {
     throw error;
   }
 }
+
 /**
  * Performs a HTTP GET request to the server
  * 
@@ -65,4 +66,38 @@ async function apiGetRequest({ resource, parameters }) {
   }
 }
 
-export { apiPostRequest, apiGetRequest }
+/**
+ * Performs a HTTP DELETE request to the server
+ * 
+ * @param {string} resource The resource where the data should be sent, for example, '/steps'.
+ * @returns {object} The server response
+ */
+ async function apiDeleteRequest({ resource, parameters }) {
+  try {
+    let resourceString = `${serverUrl}/${resource}`;
+
+    if (parameters) {
+      let paramString = "?";
+      parameters.forEach(parameter => {
+        paramString += `${parameter.key}=${parameter.value}&`;
+      });
+
+      resourceString += `/${paramString}`;
+    }
+
+    const server_response = await fetch(resourceString, {
+      method: 'DELETE'
+    });
+
+    if (server_response.status === 200) {
+      return server_response;
+    } else {
+      throw `Could not perform GET request for ${resource}. Status: ${server_response.status} ${server_response.statusText}`;
+    }
+  } catch (error) {
+    console.log('fetch error: ', error)
+    throw error;
+  }
+}
+
+export { apiPostRequest, apiGetRequest, apiDeleteRequest }

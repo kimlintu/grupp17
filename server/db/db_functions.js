@@ -1,7 +1,6 @@
 const { cloudant } = require('./db_init.js');
 
 const user_database = 'kimpossible_test';
-const steps_database = 'iotp_udbne1_steps_data_';
 
 /*
 Add deviceId to userId document in database
@@ -17,7 +16,32 @@ async function addDeviceIdToUser({ user, deviceId }) {
     }, user.id);
   })
 }
-const util = require('util')
+
+/**
+ * Removes the saved step-counter from the user in the database. 
+ * @param {object} user The user whose device should be removed. 
+ */
+async function deleteDeviceFromUser({ user }) {
+  const userDoc = await cloudant.use(user_database).get(user.id);
+  await cloudant.use(user_database).insert({
+    _rev: userDoc.rev,
+    steps: userDoc.steps,
+    device_id: '', // empty string signifies no step counter added
+    name: userDoc.name
+  }, user.id)
+}
+
+/**
+ * 
+ * @param {object} user The user whose devices should be retreived. 
+ * @returns (For now) the step counter that has been added by the user.
+ */
+async function getUserDevices({ user }) {
+  const userDoc = await cloudant.use(user_database).get(user.id);
+
+  return userDoc.device_id;
+}
+
 /*
 Get latest document with step information for current user
 @return the number of steps
@@ -58,9 +82,6 @@ async function getStepsForUser({ deviceId, start_date, stop_date }) {
   })
 }
 
-async function retrieveStepsFromDatabase({ user, deviceId, start_date, stop_date }) {
-
-}
 
 function getDaysInMonth(year, month) {
   return new Date(year, month, 0).getDate();
@@ -78,3 +99,5 @@ function stepsQuery({ deviceId }) {
 
 exports.addDeviceIdToUser = addDeviceIdToUser;
 exports.getStepsForUser = getStepsForUser;
+exports.getUserDevices = getUserDevices;
+exports.deleteDeviceFromUser = deleteDeviceFromUser;

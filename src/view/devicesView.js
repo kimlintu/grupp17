@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 
-const DevicesView = ({ addDevice, getDeviceList, status }) => {
+const DevicesView = ({ addDevice, getDeviceList, deleteDevice, status }) => {
   const match = useRouteMatch();
 
   return <Switch>
@@ -16,7 +16,7 @@ const DevicesView = ({ addDevice, getDeviceList, status }) => {
       <AddDeviceView addDevice={addDevice} status={status} />
     </Route>
     <Route path={`${match.path}/list`}>
-      <ListDevicesView getDeviceList={getDeviceList} />
+      <ListDevicesView getDeviceList={getDeviceList} deleteDevice={deleteDevice} />
     </Route>
     <Route path={`${match.path}`}>
       <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }} justify="center">
@@ -70,7 +70,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function ListDevicesView({ getDeviceList }) {
+function ListDevicesView({ getDeviceList, deleteDevice }) {
   const [deviceList, setDeviceList] = useState(null);
 
   useEffect(() => {
@@ -100,7 +100,7 @@ function ListDevicesView({ getDeviceList }) {
                       </Typography>
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      <IconButton >
+                      <IconButton onClick={() => deleteDevice(device.deviceId)} >
                         <HighlightOffSharpIcon style={{ width: 30, height: 30 }} color="secondary" />
                       </IconButton>
                     </StyledTableCell>

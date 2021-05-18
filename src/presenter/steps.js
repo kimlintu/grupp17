@@ -1,24 +1,52 @@
-import { createElement, useState } from "react";
+import React, { createElement, useState } from "react";
 import { StepsView } from "../view/stepsView";
 import { apiGetRequest, apiPostRequest } from "../api/serverApi";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 function Steps() {
     const [steps, setSteps] = useState('');
     const [status, setStatus] = useState('');
-    console.log("STEPSSTATE:", steps);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(null);
+    console.log("STARTDATE: ", ('0' + (startDate.getDate())).slice(-2));
+    console.log("ENDDATE: ", endDate)
 
     return createElement(StepsView, {
+        datePick: () => {
+            const onChange = dates =>{
+                const [start, end] = dates;
+                setStartDate(start);
+                setEndDate(end);
+            };
+            return (
+                <DatePicker 
+                    format={"DD/MM/YYYY"}
+                    selected={startDate} 
+                    onChange={onChange} 
+                    startDate={startDate} 
+                    endDate={endDate} 
+                    selectsRange 
+                    inline />
+            );
+        },   
         getSteps: async () => {
-            try {
-                const db_response = await apiGetRequest({ resource: 'steps' });
-                const data = await db_response.json(); //get only the data from response
-                setSteps(data);
-            } catch (error) {
-                console.log(error);
-            }
+            const data = await apiGetRequest({
+                resource: 'steps/get',
+                parameters: [
+                    { key: 'start_date_year', value: startDate.getFullYear() },
+                    { key: 'start_date_month', value: ('0' + (startDate.getMonth() + 1)).slice(-2) },//0 based
+                    { key: 'start_date_day', value: ('0' + startDate.getDate()).slice(-2) },
+                    { key: 'stop_date_year', value: endDate.getFullYear() },
+                    { key: 'stop_date_month', value: ('0' + (endDate.getMonth() + 1)).slice(-2) },//0 based
+                    { key: 'stop_date_day', value: ('0' + endDate.getDate()).slice(-2) },
+                    { key: 'deviceId', value: 'steppy' }
+                ]
+            });
+            console.log('data: ', data);
 
-        },
+        },  
         getStepsData: async () => {
             const data = await apiGetRequest({
                 resource: 'steps/get',
@@ -35,7 +63,8 @@ function Steps() {
 
             console.log('data: ', data)
         }
-        , steps,
+        , 
+        steps,
         postSteps: async (numberOfSteps) => {
             try {
                 const db_response = await apiPostRequest({ resource: 'steps/add', data: { numberOfSteps: numberOfSteps } });
@@ -48,5 +77,6 @@ function Steps() {
         }, status
     });
 };
+
 
 export { Steps };

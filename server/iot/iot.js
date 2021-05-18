@@ -6,10 +6,10 @@
  * 
  ********************************************************************************/
 
-const { iotApiAddDevice, iotApiGetDeviceList, 
-        registerService, createConnector,
-        createConnectorDestination, createForwardingRule } = require('./iotApi')
-const { addDeviceIdToUser } = require('../db/db_functions')
+const { iotApiAddDevice, iotApiGetDeviceList,
+  registerService, createConnector,
+  createConnectorDestination, createForwardingRule, iotApiDeleteDevice } = require('./iotApi')
+const { addDeviceIdToUser, deleteDeviceFromUser } = require('../db/db_functions')
 
 /**
  * Registers the device at the IBM Watson IoT service and and saves it under the user
@@ -55,14 +55,18 @@ async function addDevice({ user, deviceName, deviceInformation, deviceAuthToken 
  * 
  * @returns {array} an array with device objects containing information about the device. 
  */
-async function getDeviceList({ user }) {
-  if(!user) {
-    /* MISSING ARGUMENTS ERROR */
-  }
-
-  const deviceList = await iotApiGetDeviceList({ user });
+async function getDeviceList({ deviceId }) {
+  const deviceList = await iotApiGetDeviceList({ deviceId });
 
   return deviceList.data;
+}
+
+async function deleteDevice({ user, deviceId }) {
+
+  console.log('im here')
+  await iotApiDeleteDevice({ deviceId });
+
+  return await deleteDeviceFromUser({ user });
 }
 
 async function connectHubToDB() {
@@ -78,21 +82,17 @@ async function connectHubToDB() {
 
   const serviceInfo = await registerService(type, 'CloudantService', 'Cloudant service', credentials);
   const serviceId = serviceInfo.data.id;
-  console.log('info ', serviceInfo)
 
   const connectorInfo = await createConnector(type, 'Connector', 'Connector for Watson', serviceId, 'UTC');
   const connectorId = connectorInfo.data.id;
-  console.log('info ', connectorInfo)
 
   const destinationInfo = await createConnectorDestination(type, 'steps_data', connectorId, 'DAY');
   const destinationName = destinationInfo.data.name;
-  console.log('info ', destinationInfo)
 
-  const rule = await createForwardingRule('dest rule', destinationName, connectorId, 'step-counter', 'Step-data');
-  console.log('info ', rule)
-
+  return await createForwardingRule('dest rule', destinationName, connectorId, 'step-counter', 'Step-data');
 }
 
 exports.addDevice = addDevice;
 exports.getDeviceList = getDeviceList;
 exports.connectHubToDB = connectHubToDB;
+exports.deleteDevice = deleteDevice;
