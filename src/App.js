@@ -49,6 +49,13 @@ function App() {
             </Drawer>
           </RedirectWrapper>
         </Route>
+        <Route path="/stepcounter">
+          <RedirectWrapper>
+            <Drawer>
+              <Stepcounter />
+            </Drawer>
+          </RedirectWrapper>
+        </Route>
         <Route path="/">
           <RedirectWrapper>
             <Drawer>
