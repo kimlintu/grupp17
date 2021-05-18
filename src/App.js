@@ -5,13 +5,13 @@ import {
 } from 'react-router-dom';
 
 import { MainMenu } from './presenter/mainMenu'
-import { MainMenuView } from './view/mainMenuView'
-import { LoginView } from './view/loginView'
-import { RegisterView } from './view/registerView'
 import { Steps } from './presenter/steps'
+import { Account } from './presenter/account'
 import { Devices } from './presenter/devices/devices'
-import { PermanentDrawerLeft } from './view/drawerView'
-
+import { Stepcounter } from './presenter/stepcounter';
+import { Drawer } from './presenter/drawer'
+import { StatsView } from './view/statsView'
+import { RedirectWrapper } from './redirect'
 
 
 
@@ -23,26 +23,52 @@ function App() {
             renders the first one that matches the current URL. 
             The "/" path always matches so it needs to be the last <Route>. */}
       <Switch>
-        <Route path="/login">
-          <LoginView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+        <Route path="/account">
+          <RedirectWrapper>
+            <Drawer>
+              <Account />
+            </Drawer>
+          </RedirectWrapper>
         </Route>
         <Route path="/steps">
-          <PermanentDrawerLeft>
-            <Steps />
-          </PermanentDrawerLeft>
+          <RedirectWrapper>
+            <Drawer>
+              <Steps />
+            </Drawer>
+          </RedirectWrapper>
         </Route>
-        <Route path="/register">
-          <RegisterView /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
+        <Route path="/stats/steps">
+          <RedirectWrapper>
+            <Drawer>
+              <StatsView />
+            </Drawer>
+          </RedirectWrapper>
+        </Route>
+        <Route path="/steps">
+          <RedirectWrapper>
+            <Steps />
+          </RedirectWrapper>
         </Route>
         <Route path="/devices">
-          <PermanentDrawerLeft>
-            <Devices />
-          </PermanentDrawerLeft>
+          <RedirectWrapper>
+            <Drawer>
+              <Devices />
+            </Drawer>
+          </RedirectWrapper>
+        </Route>
+        <Route path="/stepcounter">
+          <RedirectWrapper>
+            <Drawer>
+              <Stepcounter />
+            </Drawer>
+          </RedirectWrapper>
         </Route>
         <Route path="/">
-          <PermanentDrawerLeft>
-            <MainMenu /> {/* Our own React component (will be replaced by corresponding Presenter later) */}
-          </PermanentDrawerLeft>
+          <RedirectWrapper>
+            <Drawer>
+              <MainMenu />
+            </Drawer>
+          </RedirectWrapper>
         </Route>
       </Switch>
     </Router>

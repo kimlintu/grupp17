@@ -1,13 +1,9 @@
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Typography, TextField } from '@material-ui/core';
-import { useState} from 'react';
-import {Chart} from 'react-charts';
+import { useState } from 'react';
 import React from 'react';
 
-
 const StepsView = ({ datePick, getSteps, steps, postSteps, status, getStepsData }) => {
-  const match = useRouteMatch(); {/* match contains info about current <Route>,
-    i.e. "/login". It can be used to perform relative routing (see below). */}
   const [uploadSteps, setUploadSteps] = useState('');
   return <div style={{
     backgroundColor: 'lightgreen',
@@ -21,7 +17,7 @@ const StepsView = ({ datePick, getSteps, steps, postSteps, status, getStepsData 
         Login
         </button>
     </Link>}
-      <button onClick={() => getStepsData()}>
+    <button onClick={() => getStepsData()}>
       STEP DATA
       </button>
     <Typography paragraph>
@@ -34,24 +30,12 @@ const StepsView = ({ datePick, getSteps, steps, postSteps, status, getStepsData 
     <Typography paragraph>
       Select date to view steps
     </Typography>
-  
+
     {datePick()}
     <button onClick={() => getSteps()}>
       GET STEPS
     </button>
-    
-    
-    
-
-    
-
-
-  
-
   </div>
-  
-  
-
 };
 
 

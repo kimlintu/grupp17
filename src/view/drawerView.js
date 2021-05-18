@@ -15,6 +15,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
 import SyncIcon from '@material-ui/icons/Sync';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
+import DevicesOtherIcon from '@material-ui/icons/DevicesOther';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -40,9 +41,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PermanentDrawerLeft(props) {
+function PermanentDrawerLeft({ props }) {
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -62,45 +62,57 @@ function PermanentDrawerLeft(props) {
         anchor="left"
       >
         <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          <Link to="/steps">
-            <ListItem button key={"Add steps"}>
+        {(props.userLoggedIn === true) && (<>
+          <Divider />
+          <List>
+            <Link to="/steps">
+              <ListItem button key={"Add steps"}>
+                <ListItemIcon>
+                  <AddIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Add steps"} />
+              </ListItem>
+            </Link>
+            <ListItem button key={"Add friend"}>
               <ListItemIcon>
                 <AddIcon />
               </ListItemIcon>
-              <ListItemText primary={"Add steps"} />
+              <ListItemText primary={"Add friend"} />
             </ListItem>
-          </Link>
-          <ListItem button key={"Add friend"}>
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Add friend"} />
-          </ListItem>
-          <Link to="/devices">
-            <ListItem button key={"Sync stepcounter"}>
-              <ListItemIcon>
-                <SyncIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Sync stepcounter"} />
-            </ListItem>
-          </Link>
-          <ListItem button key={"Show stats"}>
-            <ListItemIcon>
-              <EqualizerIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Show stats"} />
-          </ListItem>
-        </List>
-        <Divider />
+            <Link to="/devices">
+              <ListItem button key={"Sync stepcounter"}>
+                <ListItemIcon>
+                  <SyncIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Sync stepcounter"} />
+              </ListItem>
+            </Link>
+            <Link to="/stepcounter">
+              <ListItem button key={"Stepcounter"}>
+                <ListItemIcon>
+                  <DevicesOtherIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Stepcounter"} />
+              </ListItem>
+            </Link>
+            <Link to="/stats/steps">
+              <ListItem button key={"Show stats"}>
+                <ListItemIcon>
+                  <EqualizerIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Show stats"} />
+              </ListItem>
+            </Link>
+          </List>
+          <Divider />
+        </>)}
         <List>
-          <Link to="/login">
-            <ListItem button key={"Logout"}>
+          <Link to="/account">
+            <ListItem button key={"account"}>
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>
-              <ListItemText primary={"Logout"} />
+              <ListItemText primary={"account"} />
             </ListItem>
           </Link>
         </List>

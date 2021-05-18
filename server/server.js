@@ -30,43 +30,50 @@ passport.use(new WebAppStrategy({
 }))
 
 
-app.get('/appid/login', passport.authenticate(WebAppStrategy.STRATEGY_NAME, {
+app.get('/account/login', passport.authenticate(WebAppStrategy.STRATEGY_NAME, {
     successRedirect: '/',
     forceLogin: true
 }));
 
-
 app.get('/appid/callback', passport.authenticate(WebAppStrategy.STRATEGY_NAME));
 
-app.use(passport.authenticate(WebAppStrategy.STRATEGY_NAME));
 
+app.get('/account/logout', function (req, res) {
+    WebAppStrategy.logout(req);
+    res.redirect('/');
+})
+
+app.get("/account/change_details", passport.authenticate(WebAppStrategy.STRATEGY_NAME, {
+    successRedirect: '/',
+    show: WebAppStrategy.CHANGE_DETAILS
+}))
+
+// app.use(passport.authenticate(WebAppStrategy.STRATEGY_NAME));
 
 const path = require('path');
 const cfenv = require('cfenv'); // Cloud Foundry environment (port, ip etc.)
-//const cloudant = require('@cloudant/cloudant/types');
 
 const servePath = path.join(__dirname, '../build');
 
 
 const current_database = 'kimpossible_test'; //current database
-//const user = 'kim'; //current user
-
+const { addDevice, getDeviceList } = require('./iot/iot')
 const { getStepsForUser } = require('./db/db_functions')
 
-const { addDevice, getDeviceList } = require('./iot/iot')
-
 app.get('/', async (request, response) => {
-    try {
-        const checkDb = await cloudant.use(current_database).get(request.user.identities[0]['id']);
-        //console.log(checkDb);
-    } catch (e){
-        const create = await cloudant.use(current_database).insert({steps: 0, device_id: ''}, 
-            request.user.identities[0]['id']);
-        //console.error(e);
+    if (request.user) {
+        try {
+            const checkDb = await cloudant.use(current_database).get(request.user.identities[0]['id']);
+            //console.log(checkDb);
+        } catch (e) {
+            const create = await cloudant.use(current_database).insert({ steps: 0, device_id: '' },
+                request.user.identities[0]['id']);
+            //console.error(e);
+        }
     }
-    
+
     response.sendFile(path.join(servePath, 'index.html'));
-}); 
+});
 
 /* Makes it so that all files get served from the build/ directory */
 /* which gets created after running npm run build. */
@@ -77,7 +84,10 @@ app.use(express.json());
 
 
 app.get('/api/user', (request, response) => {
-    response.json(request.user);
+    if(request.user)
+        response.json(request.user);
+    else
+        response.json({ name: null });
 });
 
 app.get('/steps', (request, response) => {
@@ -98,14 +108,6 @@ app.get('/db/delete', (request, response) => {
     }
 
 })
-
-app.post('/steps/add', (request, response) => {
-    console.log("steps to be written: ", request.body.numberOfSteps);
-    cloudant.use(current_database).get(user).then((data) =>{
-        const doc = data;
-        cloudant.use(current_database).insert({_rev: doc._rev, steps: request.body.numberOfSteps}, user);
-    })
-});
 
 app.get('/step-counters/get', async (request, response) => {
     try {
@@ -173,6 +175,11 @@ app.get('/steps/get', async (request, response) => {
     const stepsData = await getStepsForUser({ deviceId: deviceId, start_date, stop_date });
 
     console.log('\n\nSTEPSDATA, ', stepsData);
+})
+
+/* Redirect any 404 to start page */
+app.use((request, response, next) => {
+    response.sendFile(path.join(servePath, 'index.html'));
 })
 
 /* Environment for Cloud Foundry app (watchyoursteps). Contains things such as 
