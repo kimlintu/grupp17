@@ -55,12 +55,8 @@ async function addDevice({ user, deviceName, deviceInformation, deviceAuthToken 
  * 
  * @returns {array} an array with device objects containing information about the device. 
  */
-async function getDeviceList({ user }) {
-  if(!user) {
-    /* MISSING ARGUMENTS ERROR */
-  }
-
-  const deviceList = await iotApiGetDeviceList({ user });
+async function getDeviceList({ deviceId }) {
+  const deviceList = await iotApiGetDeviceList({ deviceId });
 
   return deviceList.data;
 }
@@ -78,19 +74,14 @@ async function connectHubToDB() {
 
   const serviceInfo = await registerService(type, 'CloudantService', 'Cloudant service', credentials);
   const serviceId = serviceInfo.data.id;
-  console.log('info ', serviceInfo)
 
   const connectorInfo = await createConnector(type, 'Connector', 'Connector for Watson', serviceId, 'UTC');
   const connectorId = connectorInfo.data.id;
-  console.log('info ', connectorInfo)
 
   const destinationInfo = await createConnectorDestination(type, 'steps_data', connectorId, 'DAY');
   const destinationName = destinationInfo.data.name;
-  console.log('info ', destinationInfo)
 
-  const rule = await createForwardingRule('dest rule', destinationName, connectorId, 'step-counter', 'Step-data');
-  console.log('info ', rule)
-
+  return await createForwardingRule('dest rule', destinationName, connectorId, 'step-counter', 'Step-data');
 }
 
 exports.addDevice = addDevice;
