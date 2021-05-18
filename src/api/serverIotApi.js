@@ -1,4 +1,4 @@
-import { apiPostRequest, apiGetRequest } from './serverApi'
+import { apiPostRequest, apiGetRequest, apiDeleteRequest } from './serverApi'
 
 /**
  * Adds the device to the Watson IoT hub and returns the generated device auth token.
@@ -8,9 +8,9 @@ import { apiPostRequest, apiGetRequest } from './serverApi'
  * @returns {object} the generated token for the added device. 
  */
 async function addDeviceToHub(device) {
-  if(!device.deviceName)
+  if (!device.deviceName)
     throw 'Device is missing deviceName parameter!';
-  
+
   try {
     const response = await apiPostRequest({ resource: 'step-counters/add', data: device });
     const data = await response.json();
@@ -18,7 +18,7 @@ async function addDeviceToHub(device) {
     return data.deviceToken;
   } catch (error) {
     // A '409' status code indicates that the device name has been taken.
-    if(error.errorStatus === 409) 
+    if (error.errorStatus === 409)
       throw `A device with name ${device.deviceName} has already been added, please choose another name!`;
 
     // Unknown error, send default error message.
@@ -33,7 +33,7 @@ async function addDeviceToHub(device) {
  */
 async function getAddedDevicesList() {
   try {
-    const response = await apiGetRequest({ resource: 'step-counters/get'});
+    const response = await apiGetRequest({ resource: 'step-counters/get' });
     const data = await response.json();
 
     return data;
@@ -42,4 +42,15 @@ async function getAddedDevicesList() {
   }
 }
 
-export { addDeviceToHub, getAddedDevicesList }
+async function deleteDevice({ deviceId }) {
+  try {
+    const response = await apiDeleteRequest({ resource: 'step-counters/delete', parameters: [{ key: 'deviceId', value: deviceId }] });
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export { addDeviceToHub, getAddedDevicesList, deleteDevice }

@@ -1,7 +1,7 @@
 import { createElement, useState } from "react";
 import { DevicesView } from "../../view/devicesView"
 
-import { addDeviceToHub, getAddedDevicesList } from '../../api/serverIotApi'
+import { addDeviceToHub, getAddedDevicesList, deleteDevice } from '../../api/serverIotApi'
 
 function Devices() {
   const [status, setStatus] = useState('');
@@ -29,6 +29,9 @@ function Devices() {
       }
     },
     getDeviceList: getAddedDevicesList,
+    deleteDevice: async (deviceId) => {
+      await deleteDevice({ deviceId });
+    },
     status
   });
 }
