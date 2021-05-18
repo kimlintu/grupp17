@@ -79,6 +79,8 @@ function ListDevicesView({ getDeviceList, deleteDevice }) {
     })
   }, []);
 
+  console.log('list: ', deviceList)
+
   return <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }}>
     <Grid item xs={12}>
       <Grid container justify="center">
@@ -100,7 +102,14 @@ function ListDevicesView({ getDeviceList, deleteDevice }) {
                       </Typography>
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      <IconButton onClick={() => deleteDevice(device.deviceId)} >
+                      <IconButton onClick={() => {
+                        deleteDevice(device.deviceId).then(() => {
+                          getDeviceList().then(list => {
+                            console.log('retrive list, ', list)
+                            setDeviceList(list.results);
+                          })
+                        })
+                      }} >
                         <HighlightOffSharpIcon style={{ width: 30, height: 30 }} color="secondary" />
                       </IconButton>
                     </StyledTableCell>
