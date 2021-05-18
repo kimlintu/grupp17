@@ -1,7 +1,6 @@
 const { cloudant } = require('./db_init.js');
 
 const user_database = 'kimpossible_test';
-const steps_database = 'iotp_udbne1_steps_data_';
 
 /*
 Add deviceId to userId document in database
@@ -17,7 +16,18 @@ async function addDeviceIdToUser({ user, deviceId }) {
     }, user.id);
   })
 }
-const util = require('util')
+
+/**
+ * 
+ * @param {object} user The user whose devices should be retreived. 
+ * @returns (For now) the step counter that has been added by the user.
+ */
+async function getUserDevices({ user }) {
+  const userDoc = await cloudant.use(user_database).get(user.id);
+
+  return userDoc.device_id;
+}
+
 /*
 Get latest document with step information for current user
 @return the number of steps
@@ -78,3 +88,4 @@ function stepsQuery({ deviceId }) {
 
 exports.addDeviceIdToUser = addDeviceIdToUser;
 exports.getStepsForUser = getStepsForUser;
+exports.getUserDevices = getUserDevices;
