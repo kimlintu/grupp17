@@ -147,7 +147,7 @@ function StepsGraph({ data }) {
     <XAxis dataKey="day" />
     <YAxis />
     <Bar dataKey="steps" fill="#E0607E" label={renderCustomBarLabel} />
-    <Brush dataKey="day" startIndex={0} endIndex={10}>
+    <Brush dataKey="day" startIndex={0} endIndex={data.length - 1}>
       <BarChart>
         <YAxis hide />
         <Bar dataKey="steps" fill="#E0607E" dot={false} />
