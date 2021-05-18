@@ -16,12 +16,23 @@ const iotServiceInfo = {
  * 
  * @returns {object} the response of the request.
  */
-async function iotApiCall({ resource, method, headers, body }) {
+async function iotApiCall({ resource, params, method, headers, body }) {
   if (!resource || !method)
     throw 'Missing parameters: [' + (resource ? '' : ' [resource] ') + (method ? '' : ' [method] ') + ']';
 
-  const fullUrl = iotServiceInfo.url + resource;
+  let fullUrl = iotServiceInfo.url + resource;
 
+  // If there are any query parameters we add them after the resource.
+  if (params) {
+    let paramString = "?";
+    params.forEach(parameter => {
+      paramString += `${parameter.key}=${parameter.value}&`;
+    });
+
+    fullUrl += `/${paramString}`;
+  }
+
+  console.log(' URL ' + fullUrl + ' METHOD ' + method)
   if (!headers)
     headers = {};
 
@@ -73,10 +84,14 @@ async function iotApiAddDevice({ device }) {
  * 
  * @returns {array} the list of devices as an array.
  */
-async function iotApiGetDeviceList({ user }) {
-  const deviceListData = await iotApiGetResponseData(iotApiCall, { resource: 'bulk/devices', method: 'GET' }, 200);
+async function iotApiGetDeviceList({ deviceId }) {
+  const deviceListData = await iotApiGetResponseData(iotApiCall, { resource: 'bulk/devices', params: [{ key: "deviceId", value:  deviceId }], method: 'GET' }, 200);
 
   return deviceListData;
+}
+
+async function iotApiDeleteDevice({ deviceId }) {
+  return await iotApiCall({ resource: `device/types/step-counter/devices/${deviceId}`, method: 'DELETE'});
 }
 
 /**
@@ -153,3 +168,4 @@ exports.registerService = registerService;
 exports.createConnector = createConnector;
 exports.createConnectorDestination = createConnectorDestination;
 exports.createForwardingRule = createForwardingRule;
+exports.iotApiDeleteDevice = iotApiDeleteDevice;

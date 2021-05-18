@@ -57,8 +57,8 @@ const servePath = path.join(__dirname, '../build');
 
 
 const current_database = 'kimpossible_test'; //current database
-const { addDevice, getDeviceList } = require('./iot/iot')
-const { getStepsForUser } = require('./db/db_functions')
+const { addDevice, getDeviceList, deleteDevice } = require('./iot/iot')
+const { getStepsForUser, getUserDevices } = require('./db/db_functions')
 
 app.get('/', async (request, response) => {
     if (request.user) {
@@ -84,7 +84,7 @@ app.use(express.json());
 
 
 app.get('/api/user', (request, response) => {
-    if(request.user)
+    if (request.user)
         response.json(request.user);
     else
         response.json({ name: null });
@@ -110,12 +110,19 @@ app.get('/db/delete', (request, response) => {
 })
 
 app.get('/step-counters/get', async (request, response) => {
-    try {
-        const deviceList = await getDeviceList({ user: { name: 'test-user' } });
+    if (request.user) {
+        try {
+            const userId = request.user.identities[0]['id'];
 
-        response.json(deviceList);
-    } catch (error) {
-        response.sendStatus(error.status)
+            // First we need to check what devices that has been added by the user.
+            const deviceId = await getUserDevices({ user: { id: userId } });
+
+            const deviceList = await getDeviceList({ deviceId });
+
+            response.json(deviceList);
+        } catch (error) {
+            response.sendStatus(error.status)
+        }
     }
 })
 
@@ -131,6 +138,19 @@ app.post('/step-counters/add', async (request, response) => {
         };
 
         response.json(deviceInfo);
+    } catch (error) {
+        response.sendStatus(error.status)
+    }
+});
+
+app.delete('/step-counters/delete', async (request, response) => {
+    try {
+        const userId = request.user.identities[0]['id'];
+
+        const deviceToDeleteId = request.query.deviceId;
+        await deleteDevice({ user: { id: userId }, deviceId: deviceToDeleteId });
+
+        response.sendStatus(200);
     } catch (error) {
         response.sendStatus(error.status)
     }
