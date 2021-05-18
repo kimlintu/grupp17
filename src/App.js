@@ -5,10 +5,10 @@ import {
 } from 'react-router-dom';
 
 import { MainMenu } from './presenter/mainMenu'
-import { RegisterView } from './view/registerView'
 import { Steps } from './presenter/steps'
 import { Account } from './presenter/account'
 import { Devices } from './presenter/devices/devices'
+import { Stepcounter } from './presenter/stepcounter';
 import { Drawer } from './presenter/drawer'
 import { StatsView } from './view/statsView'
 import { RedirectWrapper } from './redirect'
