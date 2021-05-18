@@ -4,21 +4,19 @@ import { getUserInfo } from "./api/serverAuthApi";
 
 function RedirectWrapper(props) {
   const [checkedUserStatus, setCheckedUserStatus] = useState(false);
-  const [updateState, setUpdateState] = useState(0);
+  const [userLoggedIn, setUserLoggedIn] = useState(undefined);
 
   // Try to retreive user info to check if the user is logged in. 
   useEffect(() => {
 
+    // If the user has already logged in we don't need to check again.
     if (!checkedUserStatus && !(window.loggedIn === true)) {
-      console.log('WINODW: ', window.loggedIn)
-
-
       getUserInfo().then((user) => {
         if (user.name) {
-          setUpdateState(updateState + 1);
+          setUserLoggedIn(true);
           window.loggedIn = true;
         } else {
-          setUpdateState(updateState + 1);
+          setUserLoggedIn(false);
           window.loggedIn = false;
         }
 
@@ -26,10 +24,8 @@ function RedirectWrapper(props) {
       })
     }
   }, [])
-  console.log('WINODW2: ', window.loggedIn)
 
-
-  if (updateState === 0) {
+  if (userLoggedIn === undefined) {
     // Display loading status
     return createElement('div', {}, "LOADING PAGE")
   } else if ((window.loggedIn === true) || (window.location.pathname === '/account')) {
