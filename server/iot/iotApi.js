@@ -79,5 +79,77 @@ async function iotApiGetDeviceList({ user }) {
   return deviceListData;
 }
 
+/**
+ * Registers a service with the specified parameters.
+ * 
+ * @param {string} type The type of service, for example "cloudant" for a Cloudant DB service. 
+ * @param {*} name Name of the service, could be anything.
+ * @param {*} description Description of the service, could be anything.
+ * @param {*} credentials Credentials formatted as per https://docs.internetofthings.ibmcloud.com/apis/swagger/v0002/historian-connector.html#/Services/post_s2s_services.
+ * 
+ * @returns info about the registered service, including the service id that can be used to create the connector https://docs.internetofthings.ibmcloud.com/apis/swagger/v0002/historian-connector.html#/HistorianConnectors. 
+ */
+async function registerService(type, name, description, credentials) {
+  const serviceToRegister = {
+    name,
+    type,
+    description,
+    credentials
+  };
+
+  const serviceInfo = await iotApiGetResponseData(iotApiCall, { resource: 's2s/services', method: 'POST', body: serviceToRegister }, 201);
+
+  return serviceInfo;
+}
+
+async function createConnector(type, name, description, serviceId, timezone) {
+  const connector = {
+    name,
+    description,
+    serviceId,
+    type,
+    timezone,
+    "enabled": true
+  };
+
+  const connectorInfo = await iotApiGetResponseData(iotApiCall, { resource: 'historianconnectors', method: 'POST', body: connector }, 201);
+
+  return connectorInfo;
+}
+
+async function createConnectorDestination(type, name, connectorId, bucketInterval) {
+  const destination = {
+    type,
+    name,
+    "configuration": {
+      bucketInterval
+    }
+  };
+
+  const destinationInfo = await iotApiGetResponseData(iotApiCall, { resource: `historianconnectors/${connectorId}/destinations`, method: 'POST', body: destination }, 201);
+
+  return destinationInfo;
+}
+
+async function createForwardingRule(ruleName, destinationName, connectorId, deviceType, eventId) {
+  const forwardingRule = {
+    name: ruleName,
+    destinationName,
+    type: 'event',
+    selector: {
+      deviceType,
+      eventId
+    }
+  };
+
+  const ruleInfo = await iotApiGetResponseData(iotApiCall, { resource: `historianconnectors/${connectorId}/forwardingrules`, method: 'POST', body: forwardingRule }, 201);
+
+  return ruleInfo;
+}
+
 exports.iotApiAddDevice = iotApiAddDevice;
 exports.iotApiGetDeviceList = iotApiGetDeviceList;
+exports.registerService = registerService;
+exports.createConnector = createConnector;
+exports.createConnectorDestination = createConnectorDestination;
+exports.createForwardingRule = createForwardingRule;

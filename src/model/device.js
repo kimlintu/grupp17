@@ -81,46 +81,6 @@ class Device extends EventEmitter {
     }
   }
 
-  
-  // async _setup() {
-
-  //   var that = this;
-  //   /* Setting the log level to debug. By default its 'warn' */
-  //   //this.device.log.setLevel('debug');
-
-  //   /* Connect it to Watson IoT! */
-  //   this.device.connect();
-
-  //   /* When your device has connected, setup listeners and callbacks. */
-  //   this.device.on('connect', function (parent) {
-  //     that.device_connected = true;
-  //     /*    
-  //           var rc = that.device.manage(3600, true, true);
-            
-  //           that.device.on('dmAction', function(request){
-  //             console.log('Action : ' + request.action);
-  //             that.device.respondDeviceAction(request,
-  //                                             that.device.RESPONSECODE.FUNCTION_NOT_SUPPORTED, 
-  //                                             "Function not supported");
-  //           });
-  //      */
-  //     /* If the device disconnects, we do not need to panic. */
-  //     that.device.on('disconnect', function () {
-  //       that.device_connected = false;
-  //       console.log('Disocnnected');
-  //     });
-  //   });
-
-  //   /* Errors are pretty bad, right? */
-  //   this.device.on('error', function (argument) {
-  //     try {
-  //       console.log('errpr: ', argument);
-  //     } catch (err) {
-  //       throw "argument";
-  //     }
-  //   });
-  // }
-
   isConnected() {
     return this.device_connected;
   }

@@ -6,7 +6,10 @@
  * 
  ********************************************************************************/
 
-const { iotApiAddDevice, iotApiGetDeviceList } = require('./iotApi')
+const { iotApiAddDevice, iotApiGetDeviceList, 
+        registerService, createConnector,
+        createConnectorDestination, createForwardingRule } = require('./iotApi')
+const { addDeviceIdToUser } = require('../db/db_functions')
 
 /**
  * Registers the device at the IBM Watson IoT service and and saves it under the user
@@ -31,13 +34,13 @@ async function addDevice({ user, deviceName, deviceInformation, deviceAuthToken 
 
     // We use the "deviceClass" later parameter to identify which device belongs to which user. 
     device["deviceInfo"] = (deviceInformation ? deviceInformation : {});
-    device["deviceInfo"]["deviceClass"] = user.name;
 
     // First we try to add the device to the IoT hub.
     const addedDevice = await iotApiAddDevice({ device });
 
     if (addedDevice.data) {
-      // TODO: Link the device to the user in the database.
+      // Link the device to the user in the database.
+      await addDeviceIdToUser({ user, deviceId: deviceName });
 
       return addedDevice.data;
     }
@@ -62,5 +65,34 @@ async function getDeviceList({ user }) {
   return deviceList.data;
 }
 
+async function connectHubToDB() {
+  const credentials = {
+    "username": process.env.cld_username,
+    "password": process.env.cld_password,
+    "host": process.env.cld_host,
+    "port": process.env.cld_port,
+    "url": process.env.cld_url
+  };
+
+  const type = 'cloudant';
+
+  const serviceInfo = await registerService(type, 'CloudantService', 'Cloudant service', credentials);
+  const serviceId = serviceInfo.data.id;
+  console.log('info ', serviceInfo)
+
+  const connectorInfo = await createConnector(type, 'Connector', 'Connector for Watson', serviceId, 'UTC');
+  const connectorId = connectorInfo.data.id;
+  console.log('info ', connectorInfo)
+
+  const destinationInfo = await createConnectorDestination(type, 'steps_data', connectorId, 'DAY');
+  const destinationName = destinationInfo.data.name;
+  console.log('info ', destinationInfo)
+
+  const rule = await createForwardingRule('dest rule', destinationName, connectorId, 'step-counter', 'Step-data');
+  console.log('info ', rule)
+
+}
+
 exports.addDevice = addDevice;
 exports.getDeviceList = getDeviceList;
+exports.connectHubToDB = connectHubToDB;
