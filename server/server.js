@@ -57,7 +57,7 @@ const servePath = path.join(__dirname, '../build');
 
 
 const current_database = 'kimpossible_test'; //current database
-const { addDevice, getDeviceList } = require('./iot/iot')
+const { addDevice, getDeviceList, deleteDevice } = require('./iot/iot')
 const { getStepsForUser, getUserDevices } = require('./db/db_functions')
 
 app.get('/', async (request, response) => {
@@ -115,8 +115,8 @@ app.get('/step-counters/get', async (request, response) => {
             const userId = request.user.identities[0]['id'];
 
             // First we need to check what devices that has been added by the user.
-            const deviceId = await getUserDevices({ user: { id: userId }});
-            
+            const deviceId = await getUserDevices({ user: { id: userId } });
+
             const deviceList = await getDeviceList({ deviceId });
 
             response.json(deviceList);
@@ -138,6 +138,19 @@ app.post('/step-counters/add', async (request, response) => {
         };
 
         response.json(deviceInfo);
+    } catch (error) {
+        response.sendStatus(error.status)
+    }
+});
+
+app.delete('/step-counters/delete', async (request, response) => {
+    try {
+        const userId = request.user.identities[0]['id'];
+
+        const deviceToDeleteId = request.query.deviceId;
+        await deleteDevice({ user: { id: userId }, deviceId: deviceToDeleteId });
+
+        response.sendStatus(200);
     } catch (error) {
         response.sendStatus(error.status)
     }

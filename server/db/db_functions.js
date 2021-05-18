@@ -18,6 +18,20 @@ async function addDeviceIdToUser({ user, deviceId }) {
 }
 
 /**
+ * Removes the saved step-counter from the user in the database. 
+ * @param {object} user The user whose device should be removed. 
+ */
+async function deleteDeviceFromUser({ user }) {
+  const userDoc = await cloudant.use(user_database).get(user.id);
+  await cloudant.use(user_database).insert({
+    _rev: userDoc.rev,
+    steps: userDoc.steps,
+    device_id: '', // empty string signifies no step counter added
+    name: userDoc.name
+  }, user.id)
+}
+
+/**
  * 
  * @param {object} user The user whose devices should be retreived. 
  * @returns (For now) the step counter that has been added by the user.
@@ -89,3 +103,4 @@ function stepsQuery({ deviceId }) {
 exports.addDeviceIdToUser = addDeviceIdToUser;
 exports.getStepsForUser = getStepsForUser;
 exports.getUserDevices = getUserDevices;
+exports.deleteDeviceFromUser = deleteDeviceFromUser;

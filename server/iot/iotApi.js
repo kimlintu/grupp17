@@ -32,6 +32,7 @@ async function iotApiCall({ resource, params, method, headers, body }) {
     fullUrl += `/${paramString}`;
   }
 
+  console.log(' URL ' + fullUrl + ' METHOD ' + method)
   if (!headers)
     headers = {};
 
@@ -87,6 +88,10 @@ async function iotApiGetDeviceList({ deviceId }) {
   const deviceListData = await iotApiGetResponseData(iotApiCall, { resource: 'bulk/devices', params: [{ key: "deviceId", value:  deviceId }], method: 'GET' }, 200);
 
   return deviceListData;
+}
+
+async function iotApiDeleteDevice({ deviceId }) {
+  return await iotApiCall({ resource: `device/types/step-counter/devices/${deviceId}`, method: 'DELETE'});
 }
 
 /**
@@ -163,3 +168,4 @@ exports.registerService = registerService;
 exports.createConnector = createConnector;
 exports.createConnectorDestination = createConnectorDestination;
 exports.createForwardingRule = createForwardingRule;
+exports.iotApiDeleteDevice = iotApiDeleteDevice;

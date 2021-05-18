@@ -6,10 +6,10 @@
  * 
  ********************************************************************************/
 
-const { iotApiAddDevice, iotApiGetDeviceList, 
-        registerService, createConnector,
-        createConnectorDestination, createForwardingRule } = require('./iotApi')
-const { addDeviceIdToUser } = require('../db/db_functions')
+const { iotApiAddDevice, iotApiGetDeviceList,
+  registerService, createConnector,
+  createConnectorDestination, createForwardingRule, iotApiDeleteDevice } = require('./iotApi')
+const { addDeviceIdToUser, deleteDeviceFromUser } = require('../db/db_functions')
 
 /**
  * Registers the device at the IBM Watson IoT service and and saves it under the user
@@ -61,6 +61,14 @@ async function getDeviceList({ deviceId }) {
   return deviceList.data;
 }
 
+async function deleteDevice({ user, deviceId }) {
+
+  console.log('im here')
+  await iotApiDeleteDevice({ deviceId });
+
+  return await deleteDeviceFromUser({ user });
+}
+
 async function connectHubToDB() {
   const credentials = {
     "username": process.env.cld_username,
@@ -87,3 +95,4 @@ async function connectHubToDB() {
 exports.addDevice = addDevice;
 exports.getDeviceList = getDeviceList;
 exports.connectHubToDB = connectHubToDB;
+exports.deleteDevice = deleteDevice;
