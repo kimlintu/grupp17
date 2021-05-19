@@ -42,15 +42,15 @@ async function getAddedDevicesList() {
   }
 }
 
+/**
+ * Deletes the device with deviceId from the application. 
+ * 
+ * @param {string} deviceId The id of the device that should be deleted. 
+ * 
+ * @returns nothing.
+ */
 async function deleteDevice({ deviceId }) {
-  try {
-    const response = await apiDeleteRequest({ resource: 'step-counters/delete', parameters: [{ key: 'deviceId', value: deviceId }] });
-    const data = await response.json();
-
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  await apiDeleteRequest({ resource: 'step-counters/delete', parameters: [{ key: 'deviceId', value: deviceId }] });
 }
 
 export { addDeviceToHub, getAddedDevicesList, deleteDevice }
