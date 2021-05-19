@@ -163,7 +163,7 @@ app.post('/steps/add', (request, response) => {
         cloudant.use(current_database).insert({
             _rev: doc._rev,
             steps: request.body.numberOfSteps,
-            deviceId: doc.device:id,
+            deviceId: doc.device_id,
             name: request.user.name
         },
             request.user.identities[0]['id']);
