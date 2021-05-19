@@ -64,5 +64,19 @@ describe('Testing model-funcions', () => {
         expect(result).toEqual(expected);
     });
 
+    test('testing upload when not connected - should generate error', () =>{
+        expect(() => model.uploadData()).toThrow("Device not connected");
+    });
+
+    test('testing setUpConnection when no parameters set - should generate error', () =>{
+        expect(() => model.setUpConnection()).toThrow("Parameters not set correctly");
+    });
+
+    test('testing setUpConnection with BOTH parameter set - should generate error', () =>{
+        model.setToken("10");
+        model.setID("77");
+        expect(() => model.setUpConnection()).toThrow("Could not connect");
+    });
+
 });
 
