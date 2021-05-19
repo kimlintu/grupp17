@@ -66,20 +66,6 @@ function PermanentDrawerLeft({ props }) {
         {(props.userLoggedIn === true) && (<>
           <Divider />
           <List>
-            <Link to="/steps">
-              <ListItem button key={"Add steps"}>
-                <ListItemIcon>
-                  <AddIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Add steps"} />
-              </ListItem>
-            </Link>
-            <ListItem button key={"Add friend"}>
-              <ListItemIcon>
-                <AddIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Add friend"} />
-            </ListItem>
             <Link to="/devices">
               <ListItem button key={"Sync stepcounter"}>
                 <ListItemIcon>
