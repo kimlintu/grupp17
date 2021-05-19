@@ -29,19 +29,14 @@ function StatsView({ datePick, getSteps, stepData, getDeviceList, selectDevice }
           <Select
             labelId="deviceList "
             autoWidth="false"
-            onChange={(e) => { setSelected(e.target.value) }}>
+            onChange={(e) => { 
+              setSelected(e.target.value) }}>
             {deviceList && deviceList.map(dev => {
               return <MenuItem key={dev.deviceId} value={dev.deviceId}>{dev.deviceId}</MenuItem>
             })}
-            {/*  <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem> */}
           </Select>
         </FormControl>
-        <Button variant="contained" color="primary" onClick={() => selectDevice(selected)}>
+        <Button variant="contained" color="primary" onClick={() => selectDevice(selected)} disabled={(stepData === null)}>
           Confirm
         </Button>
       </Grid>
@@ -58,9 +53,9 @@ function StatsView({ datePick, getSteps, stepData, getDeviceList, selectDevice }
       <Grid item xs={12}>
         <Grid container justify="center">
           {datePick()}
-          <button onClick={() => getSteps()}>
+          <Button variant="contained" color="primary" onClick={() => getSteps()} disabled={(stepData === null)}>
             Get stats
-            </button>
+            </Button>
         </Grid>
       </Grid>
     </Grid>
