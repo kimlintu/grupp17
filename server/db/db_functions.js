@@ -63,17 +63,19 @@ async function getStepsForUser({ deviceId, start_date, stop_date }) {
         const max_day = (month == stop_date.month) ? stop_date.day : monthDays[month - start_date.month];
         for (let day = start_date.day; day <= max_day; day++) {
           const databaseName = `iotp_udbne1_steps_data_${year}-${month}-${day}`;
-
-          const data = await cloudant.use(databaseName).find({
-            selector: {
-              deviceId: { "$eq": deviceId },
-              timestamp: { "$gt": 0 }
-            },
-            fields: ["deviceId", "data", "timestamp"],
-          })
-          const max_steps = data.docs.reduce((current_max, curr) => (curr.data.steps > current_max.data.steps) ? curr : current_max);
-
-          steps = [...steps, max_steps];
+          try{
+            const data = await cloudant.use(databaseName).find({
+              selector: {
+                deviceId: { "$eq": deviceId },
+                timestamp: { "$gt": 0 }
+              },
+              fields: ["deviceId", "data", "timestamp"],
+            })
+            const max_steps = data.docs.reduce((current_max, curr) => (curr.data.steps > current_max.data.steps) ? curr : current_max);
+            steps = [...steps, max_steps];
+          }catch(error){
+            steps = [...steps, fillReturnData(year, month, day)];
+          }
         }
       }
     }
@@ -82,6 +84,14 @@ async function getStepsForUser({ deviceId, start_date, stop_date }) {
   })
 }
 
+function fillReturnData(year, month, day){
+  const temp = {
+    deviceId: '',
+    data: {steps: 0},
+    timestamp: year + "-" + month + "-" + day
+  }
+  return temp;
+}
 
 function getDaysInMonth(year, month) {
   return new Date(year, month, 0).getDate();
