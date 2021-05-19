@@ -11,6 +11,9 @@ function Account(){
         getLogin: async () => {
             window.location = window.location.href+"/login";
         },
+        getSignUp: async () => {
+            window.location = window.location.href+"/sign_up";
+        },
         getName: async () => {
             try{
                 const resp = await apiGetRequest({resource: 'api/user'});

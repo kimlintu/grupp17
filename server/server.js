@@ -48,6 +48,11 @@ app.get("/account/change_details", passport.authenticate(WebAppStrategy.STRATEGY
     show: WebAppStrategy.CHANGE_DETAILS
 }))
 
+app.get('/account/sign_up', passport.authenticate(WebAppStrategy.STRATEGY_NAME, {
+	successRedirect: '/',
+	show: WebAppStrategy.SIGN_UP
+}));
+
 // app.use(passport.authenticate(WebAppStrategy.STRATEGY_NAME));
 
 const path = require('path');
