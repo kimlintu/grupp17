@@ -1,6 +1,10 @@
 var iotf = require('ibmiotf');
 var EventEmitter = require('events');
 
+
+/*  This class represents an IoT-device, in this case a stepcounter. 
+    The device connects to the IBM-watson platform and publish its 
+    data, namely the number of steps */
 class Device extends EventEmitter {
   constructor() {
     super();
@@ -8,11 +12,13 @@ class Device extends EventEmitter {
     this.device_connected = false;
   }
 
+  /* Publish the data on the IBM-watson platform */
   Push(id, data) {
     this.device.publishHTTPS(id, 'json', JSON.stringify(data), 0);
   }
 
-  betaConnection() {
+  /* Connects the device to the IBM-watson platform */
+  connectDevice() {
     var that = this;
     console.log('Dev: connection status before connect ' + that.isConnected())
     try {
@@ -23,23 +29,16 @@ class Device extends EventEmitter {
     } catch (error) {
       throw "conn-err" + error;
     }
-
-    /* 
-     this.device.on('upload', function(id, data){
-       this.Push(id, data);
-       });
-    */
   }
 
+  /* This function is run as long as the device is connected */
   whenConnected(){
     var that = this;
     this.device.on('connect', function () {
       that.emit('connect', null)
-      console.log("yes connected");
     });
 
     this.device.on('disconnect', function () {
-      console.log('Disocnnected');
       that.emit('disconnected', null);
     });
 
@@ -48,6 +47,8 @@ class Device extends EventEmitter {
     });
   }
 
+  /*  Sets up the device with the needed configurations, and calls
+      connect-function */
   SetupDevice(token, id) {
     const device_config = {
       "org": "udbne1",
@@ -61,17 +62,19 @@ class Device extends EventEmitter {
     try {
       this.device = new iotf.IotfManagedDevice(device_config);
       this.device_connected = false;
-      this.betaConnection();
+      this.connectDevice();
     } catch (error) {
       console.log('ERRORR : ', error)
     }
   }
 
+  /* Sets this device to null */
   TeardownDevice() {
     this.device = null;
     this.device_connected = false;
   }
 
+  /* Disconnects the device */
   Disconnect() {
     try {
       this.device.disconnect();
@@ -81,10 +84,10 @@ class Device extends EventEmitter {
     }
   }
 
+  /* Returns the device connection status */
   isConnected() {
     return this.device_connected;
   }
 }
 
 export { Device };
-//module.exports = Device;
