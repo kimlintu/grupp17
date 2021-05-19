@@ -66,7 +66,7 @@ function PermanentDrawerLeft({ props }) {
           <Divider />
           <List>
             <Link to="/devices">
-              <ListItem button key={"Sync stepcounter"}>
+              <ListItem button key={"Manage stepcounter"}>
                 <ListItemIcon>
                   <SyncIcon />
                 </ListItemIcon>
