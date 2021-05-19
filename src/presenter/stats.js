@@ -37,6 +37,7 @@ function Stats() {
       );
     },
     getSteps: async () => {
+      setStepData(null);
       const data = await apiGetRequest({
         resource: 'steps/get',
         parameters: [
