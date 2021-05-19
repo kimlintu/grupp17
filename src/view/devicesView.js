@@ -19,7 +19,7 @@ const DevicesView = ({ addDevice, getDeviceList, deleteDevice, status }) => {
       <ListDevicesView getDeviceList={getDeviceList} deleteDevice={deleteDevice} />
     </Route>
     <Route path={`${match.path}`}>
-      <Grid container style={{ "height": "calc(100vh - 65px)", "alignContent": "center" }} justify="center">
+    <Grid container style={{ "marginTop": 50, "alignContent": "center" }} justify="center">
         <DevicesSelectionPaper linkPath={`${match.url}/list`} text="LIST" Icon={ViewListSharpIcon} iconColor="#92B9BD" />
         <DevicesSelectionPaper linkPath={`${match.url}/add`} text="ADD" Icon={AddBoxIcon} iconColor="#A8D4AD" />
       </Grid>
