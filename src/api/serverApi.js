@@ -1,4 +1,4 @@
-const serverUrl = 'http://localhost:6001';
+const serverUrl = 'http://https://watchyoursteps.eu-gb.cf.appdomain.cloud';
 
 /**
  * Performs a HTTP POST request to the server. 
