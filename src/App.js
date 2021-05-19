@@ -8,7 +8,6 @@ import { Account } from './presenter/account'
 import { Devices } from './presenter/devices/devices'
 import { Stepcounter } from './presenter/stepcounter';
 import { Drawer } from './presenter/drawer'
-import { StatsView } from './view/statsView'
 import { Stats } from './presenter/stats'
 import { RedirectWrapper } from './redirect'
 
