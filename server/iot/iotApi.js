@@ -32,7 +32,6 @@ async function iotApiCall({ resource, params, method, headers, body }) {
     fullUrl += `/${paramString}`;
   }
 
-  console.log(' URL ' + fullUrl + ' METHOD ' + method)
   if (!headers)
     headers = {};
 
@@ -90,6 +89,13 @@ async function iotApiGetDeviceList({ deviceId }) {
   return deviceListData;
 }
 
+/**
+ * Deletes the device with deviceId from the IoT hub.
+ * 
+ * @param {string} deviceId The id of the device that should be deleted. 
+ * 
+ * @returns nothing. 
+ */
 async function iotApiDeleteDevice({ deviceId }) {
   return await iotApiCall({ resource: `device/types/step-counter/devices/${deviceId}`, method: 'DELETE'});
 }
@@ -117,6 +123,19 @@ async function registerService(type, name, description, credentials) {
   return serviceInfo;
 }
 
+/**
+ * Creates the data connector between the database service and the IoT hub.
+ * 
+ * API doc: https://docs.internetofthings.ibmcloud.com/apis/swagger/v0002/historian-connector.html#/HistorianConnectors
+ * 
+ * @param {string} type Type of connector. For example, 'cloudant'.
+ * @param {string} name Name of the connector, can be anything.
+ * @param {string} description (Optional) Description of connector.
+ * @param {string} serviceId The previously registered service's id. 
+ * @param {string} timezone Timezone of connector.
+ * 
+ * @returns information about the connector, including its id. 
+ */
 async function createConnector(type, name, description, serviceId, timezone) {
   const connector = {
     name,
@@ -132,6 +151,18 @@ async function createConnector(type, name, description, serviceId, timezone) {
   return connectorInfo;
 }
 
+/**
+ * Creates the database destination for the IoT hub data.
+ * 
+ * API doc: https://docs.internetofthings.ibmcloud.com/apis/swagger/v0002/historian-connector.html#/Destinations/post_historianconnectors__connectorId__destinations
+ * 
+ * @param {string} type Type of database, for example 'cloudant'. 
+ * @param {string} name Name of destination. This will be part of the created database's name.
+ * @param {string} connectorId Id of the previously created connector.
+ * @param {string} bucketInterval How often should a new database be created- 'DAY', 'WEEK', 'MONTH'.
+ * 
+ * @returns information about the destination, including its name and id.
+ */
 async function createConnectorDestination(type, name, connectorId, bucketInterval) {
   const destination = {
     type,
@@ -146,6 +177,19 @@ async function createConnectorDestination(type, name, connectorId, bucketInterva
   return destinationInfo;
 }
 
+/**
+ * Creates a forwarding rule for the data.
+ * 
+ * API doc: https://docs.internetofthings.ibmcloud.com/apis/swagger/v0002/historian-connector.html#/Forwarding%20Rules
+ * 
+ * @param {string} ruleName Name of the rule, can be anything.
+ * @param {string} destinationName Name of the previously created destination-
+ * @param {string} connectorId Id of the previously created connector.
+ * @param {string} deviceType The device type this rule applies to.
+ * @param {string} eventId Name of the sensor data event.
+ * 
+ * @returns information about the rule.
+ */
 async function createForwardingRule(ruleName, destinationName, connectorId, deviceType, eventId) {
   const forwardingRule = {
     name: ruleName,
