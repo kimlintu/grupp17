@@ -196,7 +196,6 @@ app.get('/steps/get', async (request, response) => {
 
     const stepsData = await getStepsForUser({ deviceId: deviceId, start_date, stop_date });
 
-    console.log('\n\nSTEPSDATA, ', stepsData);
 
     response.json({ stepsResult: stepsData });
 })

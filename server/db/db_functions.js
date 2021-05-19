@@ -108,12 +108,9 @@ function stepsQuery({ deviceId }) {
 }
 
 async function createDocForNewUser(dataBase, userId, name){
-  console.log("funktionen");
   try {
-    console.log("funktionen try");
     const checkDb = await cloudant.use(dataBase).get(userId);
   } catch (e){
-    console.log("catch eror");
     const create = await cloudant.use(dataBase).insert({ steps: 0, device_id: '', name: name },
           userId);
   }
