@@ -5,7 +5,7 @@ import {
 
 import { scaleLog } from 'd3-scale'
 
-import { Grid, Typography, Select, FormControl, InputLabel, MenuItem } from '@material-ui/core'
+import { Button, Grid, Typography, Select, FormControl, InputLabel, MenuItem } from '@material-ui/core'
 
 import * as _ from 'lodash';
 import { useState, useEffect } from 'react';
@@ -84,8 +84,8 @@ const data01 = [
 
 function StatsView({ datePick, getSteps, stepData, getDeviceList, selectDevice }) {
 
-
   const [deviceList, setDeviceList] = useState(null);
+  const [selected, setSelected] = useState("");
 
   useEffect(() => {
     getDeviceList().then(list => {
@@ -100,13 +100,13 @@ function StatsView({ datePick, getSteps, stepData, getDeviceList, selectDevice }
       </Grid>
       <Grid container justify="center" style={{ "height": 150, "width": 200 }}>
         <FormControl variant="outlined" fullWidth="true" >
-          <InputLabel id="demo-simple-select-outlined-label">Select Device</InputLabel>
+          <InputLabel id="deviceList">Select Device</InputLabel>
           <Select
-            labelId="demo-simple-select-outlined-label"
+            labelId="deviceList "
             autoWidth="false"
-            onChange={e => selectDevice(e.target.value)}>
+            onChange={(e) => { setSelected(e.target.value) }}>
             {deviceList && deviceList.map(dev => {
-              return <MenuItem key={deviceList.deviceId} value={dev.deviceId}>{dev.deviceId}</MenuItem>
+              return <MenuItem key={dev.deviceId} value={dev.deviceId}>{dev.deviceId}</MenuItem>
             })}
             {/*  <MenuItem value="">
               <em>None</em>
@@ -116,7 +116,9 @@ function StatsView({ datePick, getSteps, stepData, getDeviceList, selectDevice }
             <MenuItem value={30}>Thirty</MenuItem> */}
           </Select>
         </FormControl>
-
+        <Button variant="contained" color="primary" onClick={() => selectDevice(selected)}>
+          Confirm
+        </Button>
       </Grid>
 
       <Grid item xs={12}>
