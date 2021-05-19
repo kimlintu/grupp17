@@ -110,7 +110,7 @@ class Model {
                     this.notifyObservers();
                 })
             } catch (er) {
-                throw new Error("Could not connect");
+                throw "Could not connect";
             }
         } else {
             throw new Error("Parameters not set correctly");
