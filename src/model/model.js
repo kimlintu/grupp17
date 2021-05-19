@@ -1,5 +1,3 @@
-//const { IoTDevice } = require('./device.js');
-
 import { Device as IoTDevice } from './device.js';
 
 /* This class stores the credentials of the stepcounter and contains some logic */
@@ -36,6 +34,7 @@ class Model {
         this.token = value;
     }
     
+    /*  Returns the token of the device */
     getToken() {
         return this.token;
     }
@@ -56,6 +55,7 @@ class Model {
         }  
     }
 
+    /* Increments the steps by adding new steps with the old value in localstorage */
     incrementSteps(newSteps) {
         let newTotal;
         let oldSteps = localStorage.getItem('step-data');
@@ -73,6 +73,7 @@ class Model {
         localStorage.setItem('date', this.getCurrentDateAndTime()[0]);
     }
 
+    /* Clears localstorage, i.e. sets the step-data value to 0  */
     clearLocalStorage() {
         localStorage.setItem('step-data', 0);
         localStorage.setItem('current-date', this.getCurrentDateAndTime()[0]);
@@ -109,10 +110,10 @@ class Model {
                     this.notifyObservers();
                 })
             } catch (er) {
-                throw "Could not connect" + er;
+                throw "Could not connect";
             }
         } else {
-            throw "Parameters not set correctly";
+            throw new Error("Parameters not set correctly");
         }
     }
 
@@ -128,14 +129,18 @@ class Model {
                 throw err;
             }
         } else {
-           throw "Device not connected";
+           throw new Error("Device not connected");
         }
     }
 
     /*  Disconnect the device from the IBM-watson platform  */
     disconnect() {
-        this.active_device.Disconnect();
-        this.active_device.TeardownDevice();
+        try{
+            this.active_device.Disconnect();
+            this.active_device.TeardownDevice();
+        } catch(err) {
+            throw new Error("Error when disconnecting device");
+        }
     }
 
     /* Checks if the device is connected to the IBM-watson platform */
