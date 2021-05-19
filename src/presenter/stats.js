@@ -46,7 +46,7 @@ function Stats() {
           { key: 'stop_date_year', value: endDate.getFullYear() },
           { key: 'stop_date_month', value: ('0' + (endDate.getMonth() + 1)).slice(-2) },//0 based
           { key: 'stop_date_day', value: ('0' + endDate.getDate()).slice(-2) },
-          { key: 'deviceId', value: 'steppy' }
+          { key: 'deviceId', value: selectedDevice }
         ]
       });
       const stepdat = await data.json();
