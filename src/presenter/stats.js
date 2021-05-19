@@ -64,8 +64,10 @@ function Stats() {
     stepData,
     getDeviceList: getAddedDevicesList,
     selectDevice: (device) => {
+      
+      console.log("selected device bef: ", device);
       setSelectedDevice(device);
-      console.log("selected device: ", selectedDevice);
+      console.log("selected device aft: ", selectedDevice);
     }
   })
 }
