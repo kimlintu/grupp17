@@ -2,7 +2,7 @@ import { StatsView } from "../view/statsView";
 import React, { createElement, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { apiGetRequest, apiPostRequest } from "../api/serverApi";
+import { getDeviceStepData } from '../api/serverDbApi'
 import { getAddedDevicesList } from "../api/serverIotApi";
 
 
@@ -38,35 +38,20 @@ function Stats() {
     },
     getSteps: async () => {
       setStepData(null);
-      const data = await apiGetRequest({
-        resource: 'steps/get',
-        parameters: [
-          { key: 'start_date_year', value: startDate.getFullYear() },
-          { key: 'start_date_month', value: ('0' + (startDate.getMonth() + 1)).slice(-2) },//0 based
-          { key: 'start_date_day', value: ('0' + startDate.getDate()).slice(-2) },
-          { key: 'stop_date_year', value: endDate.getFullYear() },
-          { key: 'stop_date_month', value: ('0' + (endDate.getMonth() + 1)).slice(-2) },//0 based
-          { key: 'stop_date_day', value: ('0' + endDate.getDate()).slice(-2) },
-          { key: 'deviceId', value: selectedDevice }
-        ]
-      });
-      const stepdat = await data.json();
-      const tempdata = new Array(stepdat.stepsResult.length);
-      for (var i = 0; i < tempdata.length; i++) {
-        tempdata[i] = {
-          day: stepdat.stepsResult[i].timestamp.substring(5, 7) + "/" + stepdat.stepsResult[i].timestamp.substring(8, 10),
-          steps: stepdat.stepsResult[i].data.steps
+
+      const orgStepData = await getDeviceStepData({ deviceId: selectedDevice, startDate, endDate });
+      const stepDataWithFixedDate = orgStepData.stepsResult.map((daySteps) => {
+        return {
+          day: daySteps.timestamp.substring(5, 7) + "/" + daySteps.timestamp.substring(8, 10),
+          steps: daySteps.data.steps
         }
-      }
-      setStepData(tempdata);
+      })
+      setStepData(stepDataWithFixedDate);
     },
     stepData,
     getDeviceList: getAddedDevicesList,
     selectDevice: (device) => {
-      
-      console.log("selected device bef: ", device);
       setSelectedDevice(device);
-      console.log("selected device aft: ", selectedDevice);
     }
   })
 }

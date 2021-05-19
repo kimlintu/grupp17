@@ -61,6 +61,15 @@ async function getDeviceList({ deviceId }) {
   return deviceList.data;
 }
 
+/**
+ * Deletes the device with deviceId from the IoT hub and removes its name
+ * from user.
+ * 
+ * @param {object} user The user of the device. 
+ * @param {string} deviceId Id of the device to be deleted.
+ * 
+ * @returns nothing.
+ */
 async function deleteDevice({ user, deviceId }) {
 
   console.log('im here')
@@ -69,6 +78,11 @@ async function deleteDevice({ user, deviceId }) {
   return await deleteDeviceFromUser({ user });
 }
 
+/**
+ * Connects the IoT hub to the Cloudant database.
+ * 
+ * @returns nothing. 
+ */
 async function connectHubToDB() {
   const credentials = {
     "username": process.env.cld_username,

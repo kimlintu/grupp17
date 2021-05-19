@@ -8,7 +8,6 @@ import { Account } from './presenter/account'
 import { Devices } from './presenter/devices/devices'
 import { Stepcounter } from './presenter/stepcounter';
 import { Drawer } from './presenter/drawer'
-import { StatsView } from './view/statsView'
 import { Stats } from './presenter/stats'
 import { RedirectWrapper } from './redirect'
 
@@ -17,10 +16,6 @@ import { RedirectWrapper } from './redirect'
 function App() {
   return (
     <Router>
-
-      {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. 
-            The "/" path always matches so it needs to be the last <Route>. */}
       <Switch>
         <Route path="/account">
           <RedirectWrapper>
