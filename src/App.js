@@ -16,10 +16,6 @@ import { RedirectWrapper } from './redirect'
 function App() {
   return (
     <Router>
-
-      {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. 
-            The "/" path always matches so it needs to be the last <Route>. */}
       <Switch>
         <Route path="/account">
           <RedirectWrapper>

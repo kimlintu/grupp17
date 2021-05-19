@@ -1,10 +1,7 @@
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState} from 'react';
 
 const RegisterView = () => {
-    const match = useRouteMatch(); {/* match contains info about current <Route>,
-  i.e. "/login". It can be used to perform relative routing (see below). */}
-
     const [username, setUserName] = useState('');
 
     return <div style={{
@@ -22,7 +19,6 @@ const RegisterView = () => {
             Enter new password:<br></br>
             <input></input>
         </div>
-
         <button onClick={()=>alert(username + " is Invalid username")}>Register</button>
         <Link to="/login">
       <button>

@@ -3,7 +3,6 @@ import AddBoxIcon from '@material-ui/icons/AddBox'
 import HighlightOffSharpIcon from '@material-ui/icons/HighlightOffSharp'
 import ViewListSharpIcon from '@material-ui/icons/ViewListSharp'
 
-import { Fragment } from 'react';
 import { useState, useEffect } from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';

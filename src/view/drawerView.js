@@ -12,7 +12,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AddIcon from '@material-ui/icons/Add';
 import SyncIcon from '@material-ui/icons/Sync';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import DevicesOtherIcon from '@material-ui/icons/DevicesOther';
