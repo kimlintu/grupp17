@@ -109,10 +109,10 @@ class Model {
                     this.notifyObservers();
                 })
             } catch (er) {
-                throw "Could not connect" + er;
+                throw new Error("Could not connect");
             }
         } else {
-            throw "Parameters not set correctly";
+            throw new Error("Parameters not set correctly");
         }
     }
 
@@ -128,7 +128,7 @@ class Model {
                 throw err;
             }
         } else {
-           throw "Device not connected";
+           throw new Error("Device not connected");
         }
     }
 
