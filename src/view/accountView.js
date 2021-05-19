@@ -4,7 +4,7 @@ import { Button, Grid, Typography, TextField, Paper } from '@material-ui/core';
 
 
 
-const AccountView = ({ getLogin, name, getName, getLogout, getDetails }) => {
+const AccountView = ({ getLogin, getSignUp, name, getName, getLogout, getDetails }) => {
   getName(); //get logged in users name, if there is any
 
 
@@ -25,10 +25,18 @@ const AccountView = ({ getLogin, name, getName, getLogout, getDetails }) => {
           <Typography style={{ fontWeight: "bold" }}>Watch your steps</Typography>
         </Grid>
         <Grid container justify="center">
-          {!name && (
-            <Button variant="contained" color="primary" onClick={() => getLogin()}>
-              Login
-            </Button>
+          {!name && ( <>
+            <Grid style={{ "margin": 2 }}>
+                <Button variant="contained" color="primary" onClick={() => getLogin()}>
+                  Login
+                </Button>
+            </Grid>
+            <Grid style={{ "margin": 2 }}>
+                <Button variant="contained" color="primary" onClick={() => getSignUp()}>
+                    Sign up
+                </Button>
+            </Grid>
+          </>
           )
           }
           {name && (<>

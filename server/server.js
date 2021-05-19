@@ -48,6 +48,11 @@ app.get("/account/change_details", passport.authenticate(WebAppStrategy.STRATEGY
     show: WebAppStrategy.CHANGE_DETAILS
 }))
 
+app.get('/account/sign_up', passport.authenticate(WebAppStrategy.STRATEGY_NAME, {
+	successRedirect: '/',
+	show: WebAppStrategy.SIGN_UP
+}));
+
 // app.use(passport.authenticate(WebAppStrategy.STRATEGY_NAME));
 
 const path = require('path');
@@ -58,18 +63,11 @@ const servePath = path.join(__dirname, '../build');
 
 const current_database = 'kimpossible_test'; //current database
 const { addDevice, getDeviceList, deleteDevice } = require('./iot/iot')
-const { getStepsForUser, getUserDevices } = require('./db/db_functions')
+const { getStepsForUser, getUserDevices, createDocForNewUser } = require('./db/db_functions')
 
 app.get('/', async (request, response) => {
     if (request.user) {
-        try {
-            const checkDb = await cloudant.use(current_database).get(request.user.identities[0]['id']);
-            //console.log(checkDb);
-        } catch (e) {
-            const create = await cloudant.use(current_database).insert({ steps: 0, device_id: '' },
-                request.user.identities[0]['id']);
-            //console.error(e);
-        }
+        const check = await createDocForNewUser(current_database, request.user.identities[0]['id'], request.user.name);
     }
 
     response.sendFile(path.join(servePath, 'index.html'));
@@ -170,6 +168,7 @@ app.post('/steps/add', (request, response) => {
         cloudant.use(current_database).insert({
             _rev: doc._rev,
             steps: request.body.numberOfSteps,
+            deviceId: doc.device_id,
             name: request.user.name
         },
             request.user.identities[0]['id']);
@@ -202,7 +201,6 @@ app.get('/steps/get', async (request, response) => {
 
     const stepsData = await getStepsForUser({ deviceId: deviceId, start_date, stop_date });
 
-    console.log('\n\nSTEPSDATA, ', stepsData);
 
     response.json({ stepsResult: stepsData });
 })
