@@ -10,13 +10,8 @@ function Stepcounter() {
 
     const [device_connected, setConnectionStatus] = React.useState(false);
     const [status, setStatus] = React.useState('');
-    const [count, setCount] = React.useState(0);
     const [dailySteps, setDailySteps] = React.useState(model.steps);
-    const [selectedDevice, setSelectedDevice] = React.useState("");
-
-    
-    console.log('status: ', device_connected)
-
+     
     React.useEffect(() => {
         const obs = model.addObserver(() => {
             setConnectionStatus(model["device_is_connected"]) 
@@ -26,11 +21,6 @@ function Stepcounter() {
             else
                 setStatus({ status: 'error', message: 'Check device credentials' })
         });
-
-        console.log("from presenter " + device_connected);
-        setCount(count + 1);
-        console.log("Count " + count);
-     
         return () => {
             model.removeObserver(obs);
             model.disconnect();
@@ -39,14 +29,6 @@ function Stepcounter() {
 
 
     return React.createElement(StepcounterView, {
-        submitLocally: (id, token) => {
-            if (id !== "" && token !== "") {
-                model.setParameters(id, token);
-                setStatus({ status: 'ok', message: 'Local state set' })
-            } else {
-                setStatus({ status: 'error', message: 'ID or token cannot be empty' });
-            }
-        },
         uploadData: (newSteps) => {
             if (newSteps <= 0) {
                 setStatus({ status: 'error', message: 'Steps cannot be 0 or negative' });
@@ -66,7 +48,6 @@ function Stepcounter() {
         connect: (id, token) => {
             if (id !== "" && token !== "") {
                 model.setParameters(id, token);
-               // setStatus({ status: 'ok', message: 'Local state set' })
                 try {
                     console.log("before con-setup " + device_connected);
                     model.setUpConnection()
@@ -96,7 +77,7 @@ function Stepcounter() {
             setDailySteps(model.clearLocalStorage());
             setStatus({ status: 'ok', message: 'LocalStorage cleared'});
         },
-        getDeviceList:getAddedDevicesList
+        getDeviceList: getAddedDevicesList
     });
 };
 
