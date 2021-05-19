@@ -29,8 +29,11 @@ function Stepcounter() {
         setCount(count + 1);
         console.log("Count " + count);
      
-        return () => model.removeObserver(obs);
-    }, [model.active_device, device_connected]);
+        return () => {
+            model.removeObserver(obs);
+            model.disconnect();
+        }
+    }, []);
 
 
     return React.createElement(StepcounterView, {
