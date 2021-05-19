@@ -3,68 +3,9 @@ import {
   BarChart, Bar, Brush
 } from 'recharts';
 
-import { scaleLog } from 'd3-scale'
-
 import { Button, Grid, Typography, Select, FormControl, InputLabel, MenuItem } from '@material-ui/core'
 
-import * as _ from 'lodash';
 import { useState, useEffect } from 'react';
-
-
-const devices = [
-  "device-1",
-  "device2",
-  "dev3",
-  "Old-one",
-  "not-used"
-]
-
-const domain = [
-  10,
-  200,
-  30,
-  53,
-  123,
-  984,
-  321,
-  1,
-  23,
-  94,
-  10,
-  200,
-  30,
-  53,
-  123,
-  984,
-  321,
-  1,
-  23,
-  94,
-  10,
-  200,
-  30,
-  53,
-  123,
-  984,
-  321,
-  1,
-  23,
-  94,
-  10,
-  200,
-  30,
-  53,
-  123,
-  984,
-  321,
-  1,
-  23,
-  94
-]
-
-
-
-
 
 function StatsView({ datePick, getSteps, stepData, getDeviceList, selectDevice }) {
 
@@ -108,8 +49,8 @@ function StatsView({ datePick, getSteps, stepData, getDeviceList, selectDevice }
       <Grid item xs={12}>
         <Grid container justify="center">
           <Grid container justify="center" style={{ "padding": "40px" }}>
-            <Grid style={{ "border": "solid 4px", "borderRadius": "5px", "padding": "30px", "backgroundColor": "#F9F4F5" }}>
-              <StepsGraph data={stepData} />
+            <Grid style={{ "width": 850, "height": 550, "border": "solid 4px", "borderRadius": "5px", "padding": "30px", "backgroundColor": "#F9F4F5" }}>
+              {stepData && <StepsGraph data={stepData} /> || 'LOADING DATA..'}
             </Grid>
           </Grid>
         </Grid>

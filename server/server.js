@@ -26,7 +26,7 @@ passport.use(new WebAppStrategy({
     clientId: "bb4220c0-67a1-4451-b069-9565827b39e9",
     secret: "Y2MxYzZjYzQtZjRkOC00NGE1LTg3ZjktNDc2YjA4N2RiZjky",
     oAuthServerUrl: "https://eu-gb.appid.cloud.ibm.com/oauth/v4/33e5e308-d5bb-420f-ad88-a2cafe836c67",
-    redirectUri: "https://watchyoursteps.eu-gb.cf.appdomain.cloud/appid/callback"
+    redirectUri: "http://localhost:6001/appid/callback"
 }))
 
 
