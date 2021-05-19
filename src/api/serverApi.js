@@ -12,67 +12,34 @@ const serverUrl = 'http://localhost:6001';
  * @returns {object} the server response. 
  */
 async function apiPostRequest({ resource, data }) {
-  try {
-    const server_response = await fetch(`${serverUrl}/${resource}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
-
-    if (server_response.status === 200) {
-      return server_response;
-    } else {
-      throw { errorStatus: server_response.status, message: `Could not perform POST request for ${resource}. Status: ${server_response.status} ${server_response.statusText}` };
-    }
-  } catch (error) {
-    console.log('fetch error: ', error)
-    throw error;
-  }
+  return await apiRequest({ resource, data, method: 'POST' });
 }
 
 /**
  * Performs a HTTP GET request to the server
  * 
  * @param {string} resource The resource where the data should be sent, for example, '/steps'.
+ * @param {object} parameters (Optional) Query parameters for the request.
+ * 
  * @returns {object} The server response
  */
 async function apiGetRequest({ resource, parameters }) {
-  try {
-    let resourceString = `${serverUrl}/${resource}`;
-
-    if (parameters) {
-      let paramString = "?";
-      parameters.forEach(parameter => {
-        paramString += `${parameter.key}=${parameter.value}&`;
-      });
-
-      resourceString += `/${paramString}`;
-    }
-
-    const server_response = await fetch(resourceString, {
-      method: 'GET'
-    });
-
-    if (server_response.status === 200) {
-      return server_response;
-    } else {
-      throw `Could not perform GET request for ${resource}. Status: ${server_response.status} ${server_response.statusText}`;
-    }
-  } catch (error) {
-    console.log('fetch error: ', error)
-    throw error;
-  }
+  return await apiRequest({ resource, parameters, method: 'GET' }); 
 }
 
 /**
  * Performs a HTTP DELETE request to the server
  * 
  * @param {string} resource The resource where the data should be sent, for example, '/steps'.
+ * @param {object} parameters (Optional) Query parameters for the request.
+ * 
  * @returns {object} The server response
  */
- async function apiDeleteRequest({ resource, parameters }) {
+async function apiDeleteRequest({ resource, parameters }) {
+  return await apiRequest({ resource, parameters, method: 'DELETE' });
+}
+
+async function apiRequest({ resource, parameters, method, data }) {
   try {
     let resourceString = `${serverUrl}/${resource}`;
 
@@ -85,14 +52,21 @@ async function apiGetRequest({ resource, parameters }) {
       resourceString += `/${paramString}`;
     }
 
-    const server_response = await fetch(resourceString, {
-      method: 'DELETE'
-    });
+    const request_options = { method };
+
+    if (method === 'POST') {
+      request_options['headers'] = {
+        'Content-Type': 'application/json'
+      };
+      request_options['body'] = JSON.stringify(data);
+    }
+
+    const server_response = await fetch(resourceString, request_options);
 
     if (server_response.status === 200) {
       return server_response;
     } else {
-      throw `Could not perform GET request for ${resource}. Status: ${server_response.status} ${server_response.statusText}`;
+      throw `Could not perform HTTP ${method} request for ${resource}. Status: ${server_response.status} ${server_response.statusText}`;
     }
   } catch (error) {
     console.log('fetch error: ', error)
