@@ -8,7 +8,6 @@ const AccountView = ({ getLogin, getSignUp, name, getName, getLogout, getDetails
   getName(); //get logged in users name, if there is any
 
 
-  console.log(name)
   const bool = true;
 
 

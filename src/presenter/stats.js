@@ -50,7 +50,6 @@ function Stats() {
         ]
       });
       const stepdat = await data.json();
-      console.log('data: ', stepdat);
       const tempdata = new Array(stepdat.stepsResult.length);
       for (var i = 0; i < tempdata.length; i++) {
         tempdata[i] = {
@@ -58,7 +57,6 @@ function Stats() {
           steps: stepdat.stepsResult[i].data.steps
         }
       }
-      console.log("DATA TO GRAPH: ", tempdata);
       setStepData(tempdata);
     },
     stepData,

@@ -4,7 +4,6 @@ import {apiGetRequest} from '../api/serverApi';
 
 
 function Account(){
-    console.log("Accounts");
     const [name, getName] = useState('');
 
     return createElement(AccountView, {

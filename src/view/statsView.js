@@ -62,23 +62,7 @@ const domain = [
   94
 ]
 
-const data01 = [
-  { day: '05/01', steps: domain[0] },
-  { day: '06/01', steps: domain[1] },
-  { day: '07/01', steps: domain[2] },
-  { day: '08/01', steps: domain[3] },
-  { day: '09/01', steps: domain[4] },
-  { day: '10/01', steps: domain[5] },
-  { day: '11/01', steps: domain[6] },
-  { day: '12/01', steps: domain[7] },
-  { day: '13/01', steps: domain[8] },
-  { day: '14/01', steps: domain[0] },
-  { day: '15/01', steps: domain[1] },
-  { day: '16/01', steps: domain[2] },
-  { day: '17/01', steps: domain[3] },
-  { day: '18/01', steps: domain[4] },
-  { day: '19/01', steps: domain[5] },
-];
+
 
 
 
