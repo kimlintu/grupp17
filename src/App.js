@@ -4,8 +4,6 @@ import {
   Route
 } from 'react-router-dom';
 
-import { MainMenu } from './presenter/mainMenu'
-import { Steps } from './presenter/steps'
 import { Account } from './presenter/account'
 import { Devices } from './presenter/devices/devices'
 import { Stepcounter } from './presenter/stepcounter';
@@ -31,23 +29,11 @@ function App() {
             </Drawer>
           </RedirectWrapper>
         </Route>
-        <Route path="/steps">
-          <RedirectWrapper>
-            <Drawer>
-              <Steps />
-            </Drawer>
-          </RedirectWrapper>
-        </Route>
         <Route path="/stats/steps">
           <RedirectWrapper>
             <Drawer>
               <Stats />
             </Drawer>
-          </RedirectWrapper>
-        </Route>
-        <Route path="/steps">
-          <RedirectWrapper>
-            <Steps />
           </RedirectWrapper>
         </Route>
         <Route path="/devices">
@@ -67,7 +53,6 @@ function App() {
         <Route path="/">
           <RedirectWrapper>
             <Drawer>
-              <MainMenu />
             </Drawer>
           </RedirectWrapper>
         </Route>
