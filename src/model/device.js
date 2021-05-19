@@ -27,7 +27,7 @@ class Device extends EventEmitter {
       console.log('Dev: connection status after connect ' + that.isConnected())
       this.whenConnected();
     } catch (error) {
-      throw "conn-err" + error;
+      throw "Error when connecting";
     }
   }
 
@@ -64,7 +64,8 @@ class Device extends EventEmitter {
       this.device_connected = false;
       this.connectDevice();
     } catch (error) {
-      console.log('ERRORR : ', error)
+      throw "Connection-error";
+     // console.log('ERRORR : ', error)
     }
   }
 
