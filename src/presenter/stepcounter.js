@@ -1,6 +1,7 @@
 import React from 'react';
 import { StepcounterView } from '../view/stepcounterView';
 import { ModelContext, DeviceContext } from '../context';
+import { getAddedDevicesList } from "../api/serverIotApi";
 
 function Stepcounter() {
 
@@ -11,6 +12,7 @@ function Stepcounter() {
     const [status, setStatus] = React.useState('');
     const [count, setCount] = React.useState(0);
     const [dailySteps, setDailySteps] = React.useState(model.steps);
+    const [selectedDevice, setSelectedDevice] = React.useState("");
 
     
     console.log('status: ', device_connected)
@@ -89,23 +91,12 @@ function Stepcounter() {
         },
         connectionStatus: device_connected,
         status,
-    /*     
-            testLocalStorage: (newSteps) => { 
-            let steps = parseInt(newSteps);
-            if (newSteps === "" || isNaN(steps) || steps <= 0) {
-              setStatus({ status: 'ok', message: 'Enter valid number for steps' })
-            } else{
-                setDailySteps(model.checkLocalStorage(steps));        
-                setStatus({ status: 'ok', message: 'LocalStorage set'});
-            }
-        }, 
-    */
         dailySteps: dailySteps,
         clear: () => {
             setDailySteps(model.clearLocalStorage());
             setStatus({ status: 'ok', message: 'LocalStorage cleared'});
-        }
-        //  tokenStatus: tokenStatus
+        },
+        getDeviceList:getAddedDevicesList
     });
 };
 
