@@ -49,11 +49,11 @@ passport.deserializeUser(function (obj, cb) {
 });
 
 passport.use(new WebAppStrategy({
-    tenantId: "33e5e308-d5bb-420f-ad88-a2cafe836c67",
-    clientId: "bb4220c0-67a1-4451-b069-9565827b39e9",
-    secret: "Y2MxYzZjYzQtZjRkOC00NGE1LTg3ZjktNDc2YjA4N2RiZjky",
-    oAuthServerUrl: "https://eu-gb.appid.cloud.ibm.com/oauth/v4/33e5e308-d5bb-420f-ad88-a2cafe836c67",
-    redirectUri: "http://localhost:6001/appid/callback"
+    tenantId: process.env.auth_tenantId,
+    clientId: process.env.auth_clientId,
+    secret: process.env.auth_secret,
+    oAuthServerUrl: process.env.auth_oAuthServerUrl,
+    redirectUri: process.env.auth_redirectUri
 }))
 
 app.get('/account/login', passport.authenticate(WebAppStrategy.STRATEGY_NAME, {
