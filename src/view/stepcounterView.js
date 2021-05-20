@@ -86,7 +86,6 @@ function StepcounterView({ uploadData, connect, disconnect, connectionStatus, st
                     </Grid>
             </Grid>
             </Grid>
-            <Button variant="contained" color="secondary" onClick={() => alert(device)}>TesTTT</Button>
         </Grid>
 }
 
