@@ -14,5 +14,4 @@ To use the express server, run `npm run build` to build the project*, then run `
 ### `run the app in development mode`
 Run `npm start` to start the app in development mode. Running in development mode will not allow the application to communicate with the backend, for this you need to follow the step above "*running on an express server*".
 
-## Project wiki
-Visit the [wiki](https://github.com/kimlintu/grupp17/wiki) for more information!
+
