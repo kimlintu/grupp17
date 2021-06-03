@@ -45,6 +45,8 @@ async function addDevice({ user, deviceName, deviceInformation, deviceAuthToken 
       return addedDevice.data;
     }
 
+  } else {
+    throw 'Missing either user or deviceName parameter.';
   }
 }
 
@@ -71,8 +73,6 @@ async function getDeviceList({ deviceId }) {
  * @returns nothing.
  */
 async function deleteDevice({ user, deviceId }) {
-
-  console.log('im here')
   await iotApiDeleteDevice({ deviceId });
 
   return await deleteDeviceFromUser({ user });
