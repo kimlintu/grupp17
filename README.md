@@ -1,5 +1,8 @@
 # watchyoursteps application
 
+## Website
+https://watchyoursteps.eu-gb.cf.appdomain.cloud/
+
 ## How to run
 Make sure to run `npm install` to install the dependencies. 
 
