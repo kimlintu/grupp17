@@ -1,7 +1,9 @@
 {
   "name": "group17",
   "jest": {
-    "modulePathIgnorePatterns": ["src"]
+    "modulePathIgnorePatterns": [
+      "src"
+    ]
   },
   "version": "0.1.0",
   "private": true,
@@ -56,7 +58,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "jest": "^27.0.4"
-  }
+  "devDependencies": {}
 }
